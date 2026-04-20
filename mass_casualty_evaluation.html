@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mass Casualty Training — Evaluation</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#0f1923;color:#f0f0f0;min-height:100vh;padding-bottom:4rem}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Hero */
+.hero{background:#b91c1c;padding:2rem 1.5rem 1.75rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(45deg,rgba(0,0,0,0.07) 0px,rgba(0,0,0,0.07) 1px,transparent 1px,transparent 8px)}
+.hero-inner{max-width:800px;margin:0 auto;position:relative}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:0.5px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500;color:#fff;letter-spacing:0.05em;margin-bottom:12px}
+.red-dot{width:8px;height:8px;border-radius:50%;background:#fca5a5;display:inline-block}
+.hero h1{font-size:28px;font-weight:600;color:#fff;line-height:1.2;margin-bottom:8px}
+.hero p{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.6;max-width:560px}
+
+/* Connection */
+.conn-wrap{max-width:800px;margin:0 auto;padding:0.75rem 1rem 0}
+.connection-bar{font-size:12px;padding:6px 12px;border-radius:8px;display:flex;align-items:center;gap:8px}
+.connection-bar.ok{background:rgba(29,158,117,0.15);color:#5DCAA5;border:0.5px solid rgba(29,158,117,0.3)}
+.connection-bar.err{background:rgba(226,75,74,0.15);color:#f87171;border:0.5px solid rgba(226,75,74,0.3)}
+.connection-bar.loading{background:rgba(127,119,221,0.15);color:#AFA9EC;border:0.5px solid rgba(127,119,221,0.3)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+.dot.ok{background:#1D9E75}.dot.err{background:#E24B4A}.dot.loading{background:#7F77DD}
+
+/* Phase nav */
+.phase-nav{max-width:800px;margin:1rem auto 0;padding:0 1rem;display:flex;gap:8px;align-items:center}
+.phase-pill{padding:6px 16px;border-radius:20px;font-size:13px;font-weight:500;border:0.5px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.45);cursor:default}
+.phase-pill.active{background:#b91c1c;border-color:#b91c1c;color:#fff}
+.phase-pill.done{background:rgba(29,158,117,0.2);border-color:rgba(29,158,117,0.4);color:#5DCAA5}
+.phase-arrow{color:rgba(255,255,255,0.2);font-size:14px}
+
+/* Page */
+.page{max-width:800px;margin:0 auto;padding:1.25rem 1rem}
+
+/* Cards */
+.card{background:#1a2530;border:0.5px solid rgba(255,255,255,0.1);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem}
+.card-accent{border-left:3px solid #b91c1c;border-radius:0 16px 16px 0;padding-left:1.25rem}
+.card-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#b91c1c;color:#fff;font-size:13px;font-weight:600;margin-bottom:12px;flex-shrink:0}
+.card-title{font-size:17px;font-weight:500;color:#fff;margin-bottom:6px;line-height:1.4}
+.card-sub{font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:1.25rem;line-height:1.5}
+
+/* Inputs */
+label{display:block;font-size:13px;font-weight:500;margin-bottom:6px;color:rgba(255,255,255,0.7)}
+input[type=text],textarea{width:100%;background:#0f1923;border:0.5px solid rgba(255,255,255,0.2);border-radius:8px;padding:10px 14px;font-size:15px;font-family:inherit;color:#f0f0f0;transition:border-color 0.15s}
+input[type=text]:focus,textarea:focus{outline:3px solid #b91c1c;outline-offset:2px;border-color:rgba(185,28,28,0.6)}
+input[type=text]::placeholder,textarea::placeholder{color:rgba(255,255,255,0.25)}
+textarea{resize:vertical;min-height:90px}
+.char-count{font-size:12px;color:rgba(255,255,255,0.3);text-align:right;margin-top:4px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:all 0.15s;border:none;font-family:inherit}
+.btn:active{transform:scale(0.98)}
+.btn:focus-visible{outline:3px solid #b91c1c;outline-offset:2px}
+.btn-red{background:#b91c1c;color:#fff}
+.btn-red:hover{background:#991b1b}
+.btn-green{background:#1D9E75;color:#fff}
+.btn-green:hover{background:#0F6E56}
+.btn-outline{background:transparent;border:0.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-size:13px;padding:7px 16px}
+.btn-outline:hover{background:rgba(255,255,255,0.06)}
+.btn-ghost{background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:13px;padding:7px 16px}
+.btn-ghost:hover{background:rgba(255,255,255,0.1)}
+.btn-lg{padding:12px 32px;font-size:15px;border-radius:10px;width:100%;justify-content:center;margin-top:0.5rem}
+
+/* Status */
+.status{font-size:13px;margin-top:8px;min-height:18px;font-weight:500}
+.status.ok{color:#5DCAA5}.status.err{color:#f87171}
+
+/* Progress */
+.progress-wrap{margin-bottom:1.5rem}
+.progress-label{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:6px;display:flex;justify-content:space-between}
+.progress-bar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:#b91c1c;border-radius:2px;transition:width 0.4s ease}
+
+/* Results phase */
+.results-header{text-align:center;padding:2rem 1rem 1rem}
+.results-header h2{font-size:24px;font-weight:600;color:#fff;margin-bottom:8px}
+.results-header p{font-size:14px;color:rgba(255,255,255,0.5)}
+
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.section-badge{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#b91c1c;color:#fff;font-size:11px;font-weight:600;flex-shrink:0}
+.section-title{font-size:16px;font-weight:500;color:#fff}
+.section-count{font-size:12px;color:rgba(255,255,255,0.35);margin-left:auto}
+
+/* Word cloud */
+#cloud-canvas{min-height:180px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;padding:1rem}
+.cloud-word{display:inline-block;padding:4px 10px;border-radius:20px;transition:transform 0.15s;cursor:default;line-height:1.3}
+.cloud-word:hover{transform:scale(1.08)}
+
+/* Response list */
+.resp-list{display:flex;flex-direction:column;gap:8px}
+.resp-card{background:#0f1923;border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.6;color:rgba(255,255,255,0.85);border-left:3px solid}
+.empty-msg{font-size:13px;color:rgba(255,255,255,0.3);text-align:center;padding:1.5rem 0;width:100%}
+
+/* Instructor */
+.instructor-section{background:#131e27;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.25rem;margin-top:1.5rem}
+.instructor-title{font-size:12px;font-weight:500;color:rgba(255,255,255,0.3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px}
+.pin-row{display:flex;gap:8px;align-items:center}
+.pin-setup{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:10px;line-height:1.5}
+.pin-error{font-size:13px;color:#f87171;margin-top:6px;min-height:18px}
+.unlocked-controls{display:none;margin-top:12px;padding-top:12px;border-top:0.5px solid rgba(255,255,255,0.08)}
+.unlocked-controls.show{display:block}
+.confirm-bar{display:none;align-items:center;gap:8px;margin-top:10px;background:rgba(226,75,74,0.12);border:0.5px solid rgba(226,75,74,0.3);border-radius:8px;padding:10px 14px;flex-wrap:wrap}
+.confirm-bar.show{display:flex}
+.confirm-text{font-size:13px;color:#fca5a5;flex:1;min-width:160px}
+.unlock-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#5DCAA5;font-weight:500;padding:4px 10px;background:rgba(29,158,117,0.15);border-radius:20px;border:0.5px solid rgba(29,158,117,0.3)}
+.lock-link{font-size:12px;color:rgba(255,255,255,0.4);cursor:pointer;text-decoration:underline;background:none;border:none;padding:0;font-family:inherit}
+.lock-link:hover{color:#f0f0f0}
+.instructor-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+
+input[type=password]{width:140px;background:#0f1923;border:0.5px solid rgba(255,255,255,0.2);border-radius:8px;padding:8px 12px;font-size:14px;font-family:monospace;color:#f0f0f0}
+input[type=password]:focus{outline:3px solid #b91c1c;outline-offset:2px}
+input[type=password]::placeholder{color:rgba(255,255,255,0.25)}
+
+.divider{height:0.5px;background:rgba(255,255,255,0.06);margin:1.5rem 0}
+.row{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<h1 class="sr-only">Mass Casualty Training — Anonymous Evaluation Form</h1>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag"><span class="red-dot"></span> Anonymous Evaluation</div>
+    <h1>Mass Casualty Training<br>Debrief &amp; Evaluation</h1>
+    <p>Your honest feedback helps us improve future training. All responses are completely anonymous and will be shared with the group.</p>
+  </div>
+</div>
+
+<div class="conn-wrap">
+  <div id="connection-bar" class="connection-bar loading">
+    <span class="dot loading" id="conn-dot"></span>
+    <span id="conn-text">Connecting...</span>
+  </div>
+</div>
+
+<div class="page" id="main-page">
+
+  <!-- Survey phase -->
+  <div id="phase-survey">
+    <div style="margin:1.25rem 0 1rem">
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span id="progress-label-text">Question 1 of 5</span>
+          <span id="progress-pct">0%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="card card-accent" id="q1-card">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <span class="card-num">1</span>
+        <div style="flex:1">
+          <div class="card-title">In 1–2 words, how are you feeling right now?</div>
+          <div class="card-sub">Use one word at a time. You can submit multiple times for this question.</div>
+          <label for="q1-input">Your word</label>
+          <div class="row">
+            <input type="text" id="q1-input" maxlength="20" placeholder="e.g. Overwhelmed, Proud, Tired..." style="flex:1;min-width:160px" aria-required="true"/>
+            <button class="btn btn-red" onclick="submitQ1()">Add word</button>
+          </div>
+          <div class="char-count" id="q1-chars">0 / 20</div>
+          <div class="status" id="q1-status" role="status" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="card card-accent" id="q2-card">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <span class="card-num">2</span>
+        <div style="flex:1">
+          <div class="card-title">What is the most important thing you are taking away from this experience?</div>
+          <div class="card-sub">Your response is anonymous.</div>
+          <label for="q2-input">Your response</label>
+          <textarea id="q2-input" maxlength="500" placeholder="Type your response here..."></textarea>
+          <div class="char-count" id="q2-chars">0 / 500</div>
+          <div class="status" id="q2-status" role="status" aria-live="polite"></div>
+          <div style="display:flex;justify-content:flex-end;margin-top:10px">
+            <button class="btn btn-red" onclick="submitQ('q2','mci_takeaways','q2')">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="card card-accent" id="q3-card">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <span class="card-num">3</span>
+        <div style="flex:1">
+          <div class="card-title">What happened today that you did not expect?</div>
+          <div class="card-sub">Your response is anonymous.</div>
+          <label for="q3-input">Your response</label>
+          <textarea id="q3-input" maxlength="500" placeholder="Type your response here..."></textarea>
+          <div class="char-count" id="q3-chars">0 / 500</div>
+          <div class="status" id="q3-status" role="status" aria-live="polite"></div>
+          <div style="display:flex;justify-content:flex-end;margin-top:10px">
+            <button class="btn btn-red" onclick="submitQ('q3','mci_unexpected','q3')">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="card card-accent" id="q4-card">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <span class="card-num">4</span>
+        <div style="flex:1">
+          <div class="card-title">Thinking about this event as a whole, what went well today?</div>
+          <div class="card-sub">Your response is anonymous.</div>
+          <label for="q4-input">Your response</label>
+          <textarea id="q4-input" maxlength="500" placeholder="Type your response here..."></textarea>
+          <div class="char-count" id="q4-chars">0 / 500</div>
+          <div class="status" id="q4-status" role="status" aria-live="polite"></div>
+          <div style="display:flex;justify-content:flex-end;margin-top:10px">
+            <button class="btn btn-red" onclick="submitQ('q4','mci_wentwell','q4')">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="card card-accent" id="q5-card">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <span class="card-num">5</span>
+        <div style="flex:1">
+          <div class="card-title">What did not go well, or what could be improved?</div>
+          <div class="card-sub">Your response is anonymous.</div>
+          <label for="q5-input">Your response</label>
+          <textarea id="q5-input" maxlength="500" placeholder="Type your response here..."></textarea>
+          <div class="char-count" id="q5-chars">0 / 500</div>
+          <div class="status" id="q5-status" role="status" aria-live="polite"></div>
+          <div style="display:flex;justify-content:flex-end;margin-top:10px">
+            <button class="btn btn-red" onclick="submitQ('q5','mci_improve','q5')">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center;padding:1.75rem">
+      <div style="font-size:16px;font-weight:500;color:#fff;margin-bottom:6px">Ready to see everyone's responses?</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:1.25rem">Answer as many questions as you'd like above, then view the group results.</div>
+      <button class="btn btn-green btn-lg" onclick="showResults()">View class responses</button>
+    </div>
+  </div>
+
+  <!-- Results phase -->
+  <div id="phase-results" style="display:none">
+    <div class="results-header">
+      <div style="display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:rgba(29,158,117,0.2);border:0.5px solid rgba(29,158,117,0.4);margin-bottom:12px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5DCAA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+      <h2>Class Responses</h2>
+      <p>All responses are anonymous. This page updates live as more students submit.</p>
+      <div style="margin-top:12px">
+        <button class="btn btn-ghost" onclick="showSurvey()">&#8592; Back to questions</button>
+      </div>
+    </div>
+
+    <!-- R1: Word cloud -->
+    <div class="card">
+      <div class="section-header">
+        <span class="section-badge">1</span>
+        <span class="section-title">How we're feeling</span>
+        <span class="section-count" id="r1-count"></span>
+      </div>
+      <div id="cloud-canvas" aria-label="Word cloud" role="img">
+        <span class="empty-msg">No words submitted yet</span>
+      </div>
+    </div>
+
+    <!-- R2 -->
+    <div class="card">
+      <div class="section-header">
+        <span class="section-badge">2</span>
+        <span class="section-title">Most important takeaways</span>
+        <span class="section-count" id="r2-count"></span>
+      </div>
+      <div class="resp-list" id="r2-list"><span class="empty-msg">No responses yet</span></div>
+    </div>
+
+    <!-- R3 -->
+    <div class="card">
+      <div class="section-header">
+        <span class="section-badge">3</span>
+        <span class="section-title">What surprised us</span>
+        <span class="section-count" id="r3-count"></span>
+      </div>
+      <div class="resp-list" id="r3-list"><span class="empty-msg">No responses yet</span></div>
+    </div>
+
+    <!-- R4 -->
+    <div class="card">
+      <div class="section-header">
+        <span class="section-badge">4</span>
+        <span class="section-title">What went well</span>
+        <span class="section-count" id="r4-count"></span>
+      </div>
+      <div class="resp-list" id="r4-list"><span class="empty-msg">No responses yet</span></div>
+    </div>
+
+    <!-- R5 -->
+    <div class="card">
+      <div class="section-header">
+        <span class="section-badge">5</span>
+        <span class="section-title">What could be improved</span>
+        <span class="section-count" id="r5-count"></span>
+      </div>
+      <div class="resp-list" id="r5-list"><span class="empty-msg">No responses yet</span></div>
+    </div>
+  </div>
+
+  <!-- Instructor controls -->
+  <div class="instructor-section" role="region" aria-label="Instructor controls">
+    <div class="instructor-header">
+      <span class="instructor-title">Instructor controls</span>
+      <span id="unlocked-badge" style="display:none" class="unlock-badge">
+        Unlocked
+        <button class="lock-link" onclick="lockInstructor()" aria-label="Lock">Lock</button>
+      </span>
+    </div>
+    <div id="pin-area">
+      <div id="pin-setup-msg" class="pin-setup" style="display:none">No PIN set yet. Create a PIN to protect these controls.</div>
+      <div class="pin-row">
+        <input type="password" id="pin-input" maxlength="8" placeholder="Enter PIN" aria-label="Instructor PIN" autocomplete="off"/>
+        <button class="btn btn-outline" id="pin-btn" onclick="handlePin()">Unlock</button>
+      </div>
+      <div class="pin-error" id="pin-error" role="alert" aria-live="polite"></div>
+    </div>
+    <div class="unlocked-controls" id="unlocked-controls">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <button class="btn btn-outline" style="color:#f87171;border-color:rgba(226,75,74,0.4)" onclick="confirmClear()">Clear all responses</button>
+        <button class="btn btn-outline" onclick="changePin()">Change PIN</button>
+      </div>
+      <div class="confirm-bar" id="confirm-bar" role="alert">
+        <span class="confirm-text">This permanently deletes all responses for everyone. Are you sure?</span>
+        <button class="btn btn-red" onclick="clearAll()" style="white-space:nowrap;padding:6px 14px;font-size:13px">Yes, clear all</button>
+        <button class="btn btn-outline" onclick="cancelClear()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, addDoc, deleteDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD36GaAMl08xir1EO8OyI0uGWyZXNn_p9A",
+  authDomain: "evaluations-3ea50.firebaseapp.com",
+  projectId: "evaluations-3ea50",
+  storageBucket: "evaluations-3ea50.firebasestorage.app",
+  messagingSenderId: "861650010957",
+  appId: "1:861650010957:web:cec4a828be829359f82d04",
+  measurementId: "G-W8DH8GPM5N"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const COLLECTIONS = {
+  feelings: 'mci_feelings',
+  takeaways: 'mci_takeaways',
+  unexpected: 'mci_unexpected',
+  wentwell: 'mci_wentwell',
+  improve: 'mci_improve',
+  settings: 'mci_settings'
+};
+
+const WORD_COLORS=[
+  {bg:'rgba(185,28,28,0.25)',text:'#fca5a5'},
+  {bg:'rgba(127,119,221,0.25)',text:'#AFA9EC'},
+  {bg:'rgba(29,158,117,0.25)',text:'#5DCAA5'},
+  {bg:'rgba(186,117,23,0.25)',text:'#FAC775'},
+  {bg:'rgba(212,83,126,0.25)',text:'#ED93B1'},
+  {bg:'rgba(55,138,221,0.25)',text:'#85B7EB'},
+  {bg:'rgba(99,153,34,0.25)',text:'#97C459'},
+  {bg:'rgba(216,90,48,0.25)',text:'#F0997B'},
+];
+const RESP_COLORS=['#b91c1c','#534AB7','#0F6E56','#854F0B','#72243E','#185FA5','#3B6D11'];
+const SIZES=[38,32,26,21,17,14];
+
+let storedPin=null;
+let connected=false;
+let answeredQ={q2:false,q3:false,q4:false,q5:false};
+let q1submitted=0;
+
+function setConnection(state){
+  const bar=document.getElementById('connection-bar');
+  const dot=document.getElementById('conn-dot');
+  const text=document.getElementById('conn-text');
+  bar.className='connection-bar '+state;
+  dot.className='dot '+state;
+  if(state==='ok')text.textContent='Connected — responses update live';
+  else if(state==='err')text.textContent='Connection error — check your internet';
+  else text.textContent='Connecting...';
+  connected=(state==='ok');
+}
+
+function updateProgress(){
+  const total=5;
+  let done=q1submitted>0?1:0;
+  ['q2','q3','q4','q5'].forEach(k=>{if(answeredQ[k])done++;});
+  const pct=Math.round((done/total)*100);
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('progress-pct').textContent=pct+'%';
+  document.getElementById('progress-label-text').textContent=done+' of '+total+' questions answered';
+}
+
+window.submitQ1=async function(){
+  const val=document.getElementById('q1-input').value.trim();
+  if(!val){setStatus('q1-status','Please enter a word.','err');return;}
+  if(val.includes(' ')&&val.split(' ').length>2){setStatus('q1-status','Please use 1 word at a time.','err');return;}
+  if(!connected){setStatus('q1-status','Not connected yet — please wait.','err');return;}
+  const key=val.toLowerCase().replace(/[^a-z0-9]/g,'').trim();
+  if(!key){setStatus('q1-status','Please enter a valid word.','err');return;}
+  try{
+    const ref=doc(db,COLLECTIONS.feelings,key);
+    const snap=await getDoc(ref);
+    if(snap.exists()){await setDoc(ref,{word:val,count:snap.data().count+1},{merge:true});}
+    else{await setDoc(ref,{word:val,count:1});}
+    document.getElementById('q1-input').value='';
+    document.getElementById('q1-chars').textContent='0 / 20';
+    q1submitted++;
+    updateProgress();
+    setStatus('q1-status','Added! Feel free to add another word.','ok');
+    document.getElementById('q1-input').focus();
+  }catch(e){setStatus('q1-status','Could not submit — check your connection.','err');}
+}
+
+window.submitQ=async function(qid,collectionName,trackKey){
+  const val=document.getElementById(qid+'-input').value.trim();
+  if(!val){setStatus(qid+'-status','Please type a response first.','err');return;}
+  if(!connected){setStatus(qid+'-status','Not connected yet — please wait.','err');return;}
+  try{
+    await addDoc(collection(db,collectionName),{text:val,ts:serverTimestamp()});
+    document.getElementById(qid+'-input').value='';
+    document.getElementById(qid+'-chars').textContent='0 / 500';
+    answeredQ[trackKey]=true;
+    updateProgress();
+    setStatus(qid+'-status','Submitted — thank you!','ok');
+    document.getElementById(qid+'-input').focus();
+  }catch(e){setStatus(qid+'-status','Could not submit — check your connection.','err');}
+}
+
+window.showResults=function(){
+  document.getElementById('phase-survey').style.display='none';
+  document.getElementById('phase-results').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+window.showSurvey=function(){
+  document.getElementById('phase-results').style.display='none';
+  document.getElementById('phase-survey').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderCloud(data){
+  const canvas=document.getElementById('cloud-canvas');
+  if(!data||!data.length){
+    canvas.innerHTML='<span class="empty-msg">No words submitted yet</span>';
+    document.getElementById('r1-count').textContent='';
+    return;
+  }
+  const sorted=[...data].sort((a,b)=>b.count-a.count);
+  const total=sorted.reduce((s,d)=>s+d.count,0);
+  const maxCount=sorted[0].count;
+  document.getElementById('r1-count').textContent=total+' response'+(total===1?'':'s');
+  canvas.innerHTML='';
+  sorted.forEach((item,i)=>{
+    const ratio=maxCount>1?(item.count-1)/(maxCount-1):1;
+    const sIdx=Math.round((1-ratio)*(SIZES.length-1));
+    const col=WORD_COLORS[i%WORD_COLORS.length];
+    const span=document.createElement('span');
+    span.className='cloud-word';
+    span.textContent=item.word;
+    span.style.cssText=`font-size:${SIZES[sIdx]}px;background:${col.bg};color:${col.text};font-weight:${item.count===maxCount?600:400};border:0.5px solid ${col.text.replace(')',',0.3)').replace('rgb','rgba')};`;
+    span.setAttribute('aria-label',item.word+', '+item.count+(item.count===1?' response':' responses'));
+    canvas.appendChild(span);
+  });
+}
+
+function renderList(data, listId, countId, colorIdx){
+  const list=document.getElementById(listId);
+  const countEl=document.getElementById(countId);
+  if(!data||!data.length){
+    list.innerHTML='<span class="empty-msg">No responses yet</span>';
+    if(countEl)countEl.textContent='';
+    return;
+  }
+  const sorted=[...data].sort((a,b)=>{
+    if(!a.ts||!b.ts)return 0;
+    return a.ts.seconds-b.ts.seconds;
+  });
+  if(countEl)countEl.textContent=sorted.length+' response'+(sorted.length===1?'':'s');
+  list.innerHTML='';
+  sorted.forEach((item,i)=>{
+    const color=RESP_COLORS[(colorIdx+i)%RESP_COLORS.length];
+    const card=document.createElement('div');
+    card.className='resp-card';
+    card.style.borderLeftColor=color;
+    card.setAttribute('tabindex','0');
+    card.textContent=item.text;
+    list.appendChild(card);
+  });
+}
+
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function setStatus(id,msg,type){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.textContent=msg;el.className='status'+(type?' '+type:'');
+  if(msg)setTimeout(()=>{if(el.textContent===msg){el.textContent='';el.className='status';}},4000);
+}
+
+['q1','q2','q3','q4','q5'].forEach(q=>{
+  const inp=document.getElementById(q+'-input');
+  const maxLen=q==='q1'?20:500;
+  if(inp){
+    inp.addEventListener('input',function(){document.getElementById(q+'-chars').textContent=this.value.length+' / '+maxLen;});
+    if(q==='q1')inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();submitQ1();}});
+  }
+});
+document.getElementById('pin-input').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();handlePin();}});
+
+async function loadPin(){
+  try{
+    const snap=await getDoc(doc(db,COLLECTIONS.settings,'pin'));
+    if(snap.exists()&&snap.data().value)storedPin=snap.data().value;
+  }catch(e){}
+  updatePinUI();
+}
+
+function updatePinUI(){
+  const setupMsg=document.getElementById('pin-setup-msg');
+  const pinBtn=document.getElementById('pin-btn');
+  const pinInput=document.getElementById('pin-input');
+  if(!storedPin){setupMsg.style.display='block';pinBtn.textContent='Set PIN';pinInput.placeholder='Create a PIN';}
+  else{setupMsg.style.display='none';pinBtn.textContent='Unlock';pinInput.placeholder='Enter PIN';}
+}
+
+window.handlePin=async function(){
+  const val=document.getElementById('pin-input').value.trim();
+  if(!val){setPinError('Please enter a PIN.');return;}
+  if(!storedPin){
+    if(val.length<4){setPinError('PIN must be at least 4 characters.');return;}
+    try{
+      await setDoc(doc(db,COLLECTIONS.settings,'pin'),{value:val});
+      storedPin=val;setPinError('');setUnlocked(true);
+    }catch(e){setPinError('Could not save PIN. Check your connection.');}
+  }else{
+    if(val===storedPin){setPinError('');setUnlocked(true);}
+    else{setPinError('Incorrect PIN. Please try again.');}
+  }
+  document.getElementById('pin-input').value='';
+}
+
+function setUnlocked(state){
+  document.getElementById('pin-area').style.display=state?'none':'block';
+  document.getElementById('unlocked-badge').style.display=state?'inline-flex':'none';
+  const ctrl=document.getElementById('unlocked-controls');
+  if(state)ctrl.classList.add('show');else ctrl.classList.remove('show');
+}
+
+window.lockInstructor=function(){
+  document.getElementById('confirm-bar').classList.remove('show');
+  setUnlocked(false);
+  const setupMsg=document.getElementById('pin-setup-msg');
+  const pinBtn=document.getElementById('pin-btn');
+  const pinInput=document.getElementById('pin-input');
+  setupMsg.style.display='none';
+  pinBtn.textContent='Unlock';
+  pinInput.placeholder='Enter PIN';
+  pinInput.value='';
+  document.getElementById('pin-error').textContent='';
+}
+
+window.changePin=async function(){
+  try{await setDoc(doc(db,COLLECTIONS.settings,'pin'),{value:''});}catch(e){}
+  storedPin=null;setUnlocked(false);updatePinUI();
+  setTimeout(()=>document.getElementById('pin-input').focus(),50);
+}
+
+function setPinError(msg){
+  document.getElementById('pin-error').textContent=msg;
+  if(msg)setTimeout(()=>{if(document.getElementById('pin-error').textContent===msg)document.getElementById('pin-error').textContent='';},4000);
+}
+
+window.confirmClear=function(){document.getElementById('confirm-bar').classList.add('show');}
+window.cancelClear=function(){document.getElementById('confirm-bar').classList.remove('show');}
+
+window.clearAll=async function(){
+  try{
+    for(const col of Object.values(COLLECTIONS)){
+      if(col===COLLECTIONS.settings)continue;
+      const snap=await getDocs(collection(db,col));
+      for(const d of snap.docs)await deleteDoc(d.ref);
+    }
+    document.getElementById('confirm-bar').classList.remove('show');
+  }catch(e){alert('Could not clear — check your connection.');}
+}
+
+onSnapshot(collection(db,COLLECTIONS.feelings),(snap)=>{
+  setConnection('ok');
+  renderCloud(snap.docs.map(d=>({id:d.id,...d.data()})));
+},(err)=>{setConnection('err');});
+
+onSnapshot(collection(db,COLLECTIONS.takeaways),(snap)=>{
+  renderList(snap.docs.map(d=>({id:d.id,...d.data()})),'r2-list','r2-count',0);
+},(err)=>{});
+onSnapshot(collection(db,COLLECTIONS.unexpected),(snap)=>{
+  renderList(snap.docs.map(d=>({id:d.id,...d.data()})),'r3-list','r3-count',2);
+},(err)=>{});
+onSnapshot(collection(db,COLLECTIONS.wentwell),(snap)=>{
+  renderList(snap.docs.map(d=>({id:d.id,...d.data()})),'r4-list','r4-count',4);
+},(err)=>{});
+onSnapshot(collection(db,COLLECTIONS.improve),(snap)=>{
+  renderList(snap.docs.map(d=>({id:d.id,...d.data()})),'r5-list','r5-count',1);
+},(err)=>{});
+
+loadPin();
+updateProgress();
+</script>
+</body>
+</html>
