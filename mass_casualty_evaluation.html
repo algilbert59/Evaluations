@@ -538,7 +538,7 @@ function setInstrError(msg){
 
 async function signInInstructor(){
   try{await signInWithPopup(auth,new GoogleAuthProvider());setInstrError('');}
-  catch(e){setInstrError('Sign-in was cancelled or blocked. Allow pop-ups and try again.');}
+  catch(e){console.error('Sign-in error',e);setInstrError('Sign-in did not finish ('+(e&&e.code?e.code:'unknown error')+'). Allow pop-ups and try again.');}
 }
 
 function signOutInstructor(){
