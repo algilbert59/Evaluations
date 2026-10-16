@@ -16,7 +16,7 @@ body{font-family:system-ui,sans-serif;background:#0f1923;color:#f0f0f0;min-heigh
 .hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:0.5px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500;color:#fff;letter-spacing:0.05em;margin-bottom:12px}
 .red-dot{width:8px;height:8px;border-radius:50%;background:#fca5a5;display:inline-block}
 .hero h1{font-size:28px;font-weight:600;color:#fff;line-height:1.2;margin-bottom:8px}
-.hero p{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.6;max-width:560px}
+.hero p{font-size:14px;color:rgba(255,255,255,0.85);line-height:1.6;max-width:560px}
 
 /* Connection */
 .conn-wrap{max-width:800px;margin:0 auto;padding:0.75rem 1rem 0}
@@ -29,7 +29,7 @@ body{font-family:system-ui,sans-serif;background:#0f1923;color:#f0f0f0;min-heigh
 
 /* Phase nav */
 .phase-nav{max-width:800px;margin:1rem auto 0;padding:0 1rem;display:flex;gap:8px;align-items:center}
-.phase-pill{padding:6px 16px;border-radius:20px;font-size:13px;font-weight:500;border:0.5px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.45);cursor:default}
+.phase-pill{padding:6px 16px;border-radius:20px;font-size:13px;font-weight:500;border:0.5px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);cursor:default}
 .phase-pill.active{background:#b91c1c;border-color:#b91c1c;color:#fff}
 .phase-pill.done{background:rgba(29,158,117,0.2);border-color:rgba(29,158,117,0.4);color:#5DCAA5}
 .phase-arrow{color:rgba(255,255,255,0.2);font-size:14px}
@@ -46,21 +46,21 @@ body{font-family:system-ui,sans-serif;background:#0f1923;color:#f0f0f0;min-heigh
 
 /* Inputs */
 label{display:block;font-size:13px;font-weight:500;margin-bottom:6px;color:rgba(255,255,255,0.7)}
-input[type=text],textarea{width:100%;background:#0f1923;border:0.5px solid rgba(255,255,255,0.2);border-radius:8px;padding:10px 14px;font-size:15px;font-family:inherit;color:#f0f0f0;transition:border-color 0.15s}
-input[type=text]:focus,textarea:focus{outline:3px solid #b91c1c;outline-offset:2px;border-color:rgba(185,28,28,0.6)}
-input[type=text]::placeholder,textarea::placeholder{color:rgba(255,255,255,0.25)}
+input[type=text],textarea{width:100%;background:#0f1923;border:1px solid rgba(255,255,255,0.5);border-radius:8px;padding:10px 14px;font-size:15px;font-family:inherit;color:#f0f0f0;transition:border-color 0.15s}
+input[type=text]:focus,textarea:focus{outline:3px solid #fca5a5;outline-offset:2px;border-color:#fca5a5}
+input[type=text]::placeholder,textarea::placeholder{color:rgba(255,255,255,0.5)}
 textarea{resize:vertical;min-height:90px}
-.char-count{font-size:12px;color:rgba(255,255,255,0.3);text-align:right;margin-top:4px}
+.char-count{font-size:12px;color:rgba(255,255,255,0.5);text-align:right;margin-top:4px}
 
 /* Buttons */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:all 0.15s;border:none;font-family:inherit}
 .btn:active{transform:scale(0.98)}
-.btn:focus-visible{outline:3px solid #b91c1c;outline-offset:2px}
+.btn:focus-visible{outline:3px solid #fca5a5;outline-offset:2px}
 .btn-red{background:#b91c1c;color:#fff}
 .btn-red:hover{background:#991b1b}
-.btn-green{background:#1D9E75;color:#fff}
-.btn-green:hover{background:#0F6E56}
-.btn-outline{background:transparent;border:0.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-size:13px;padding:7px 16px}
+.btn-green{background:#0F6E56;color:#fff}
+.btn-green:hover{background:#0A5442}
+.btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.5);color:rgba(255,255,255,0.6);font-size:13px;padding:7px 16px}
 .btn-outline:hover{background:rgba(255,255,255,0.06)}
 .btn-ghost{background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:13px;padding:7px 16px}
 .btn-ghost:hover{background:rgba(255,255,255,0.1)}
@@ -72,7 +72,7 @@ textarea{resize:vertical;min-height:90px}
 
 /* Progress */
 .progress-wrap{margin-bottom:1.5rem}
-.progress-label{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:6px;display:flex;justify-content:space-between}
+.progress-label{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:6px;display:flex;justify-content:space-between}
 .progress-bar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
 .progress-fill{height:100%;background:#b91c1c;border-radius:2px;transition:width 0.4s ease}
 
@@ -84,7 +84,7 @@ textarea{resize:vertical;min-height:90px}
 .section-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
 .section-badge{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#b91c1c;color:#fff;font-size:11px;font-weight:600;flex-shrink:0}
 .section-title{font-size:16px;font-weight:500;color:#fff}
-.section-count{font-size:12px;color:rgba(255,255,255,0.35);margin-left:auto}
+.section-count{font-size:12px;color:rgba(255,255,255,0.5);margin-left:auto}
 
 /* Word cloud */
 #cloud-canvas{min-height:180px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;padding:1rem}
@@ -94,13 +94,13 @@ textarea{resize:vertical;min-height:90px}
 /* Response list */
 .resp-list{display:flex;flex-direction:column;gap:8px}
 .resp-card{background:#0f1923;border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.6;color:rgba(255,255,255,0.85);border-left:3px solid}
-.empty-msg{font-size:13px;color:rgba(255,255,255,0.3);text-align:center;padding:1.5rem 0;width:100%}
+.empty-msg{font-size:13px;color:rgba(255,255,255,0.5);text-align:center;padding:1.5rem 0;width:100%}
 
 /* Instructor */
 .instructor-section{background:#131e27;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.25rem;margin-top:1.5rem}
-.instructor-title{font-size:12px;font-weight:500;color:rgba(255,255,255,0.3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px}
+.instructor-title{font-size:12px;font-weight:500;color:rgba(255,255,255,0.5);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px}
 .pin-row{display:flex;gap:8px;align-items:center}
-.pin-setup{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:10px;line-height:1.5}
+.pin-setup{font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:10px;line-height:1.5}
 .pin-error{font-size:13px;color:#f87171;margin-top:6px;min-height:18px}
 .unlocked-controls{display:none;margin-top:12px;padding-top:12px;border-top:0.5px solid rgba(255,255,255,0.08)}
 .unlocked-controls.show{display:block}
@@ -108,7 +108,7 @@ textarea{resize:vertical;min-height:90px}
 .confirm-bar.show{display:flex}
 .confirm-text{font-size:13px;color:#fca5a5;flex:1;min-width:160px}
 .unlock-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#5DCAA5;font-weight:500;padding:4px 10px;background:rgba(29,158,117,0.15);border-radius:20px;border:0.5px solid rgba(29,158,117,0.3)}
-.lock-link{font-size:12px;color:rgba(255,255,255,0.4);cursor:pointer;text-decoration:underline;background:none;border:none;padding:0;font-family:inherit}
+.lock-link{font-size:12px;color:rgba(255,255,255,0.5);cursor:pointer;text-decoration:underline;background:none;border:none;padding:0;font-family:inherit}
 .lock-link:hover{color:#f0f0f0}
 .instructor-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px}
 
@@ -270,7 +270,7 @@ input[type=password]::placeholder{color:rgba(255,255,255,0.25)}
         <span class="section-title">How we're feeling</span>
         <span class="section-count" id="r1-count"></span>
       </div>
-      <div id="cloud-canvas" aria-label="Word cloud" role="img">
+      <div id="cloud-canvas" aria-label="Word cloud" role="group">
         <span class="empty-msg">No words submitted yet</span>
       </div>
     </div>
@@ -321,29 +321,27 @@ input[type=password]::placeholder{color:rgba(255,255,255,0.25)}
     <div class="instructor-header">
       <span class="instructor-title">Instructor controls</span>
       <span id="unlocked-badge" style="display:none" class="unlock-badge">
-        Unlocked
-        <button class="lock-link" id="btn-lock" aria-label="Lock">Lock</button>
+        Signed in
+        <button class="lock-link" id="btn-lock" aria-label="Sign out of instructor controls">Sign out</button>
       </span>
     </div>
-    <div id="pin-area">
-      <div id="pin-setup-msg" class="pin-setup" style="display:none">No PIN set yet. Create a PIN to protect these controls.</div>
-      <div class="pin-row">
-        <input type="password" id="pin-input" maxlength="8" placeholder="Enter PIN" aria-label="Instructor PIN" autocomplete="off"/>
-        <button class="btn btn-outline" id="pin-btn">Unlock</button>
-      </div>
-      <div class="pin-error" id="pin-error" role="alert" aria-live="polite"></div>
+    <div id="signin-area">
+      <p class="pin-setup">Faculty sign in with Google to use these controls.</p>
+      <button class="btn btn-red" id="btn-signin">Faculty sign in with Google</button>
+      <div class="pin-error" id="instr-error" role="alert" aria-live="polite"></div>
     </div>
     <div class="unlocked-controls" id="unlocked-controls">
+      <p class="pin-setup" id="instructor-who"></p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <button class="btn btn-outline" style="color:#5DCAA5;border-color:rgba(29,158,117,0.4)" id="btn-export-pdf">Export to PDF</button>
-        <button class="btn btn-outline" style="color:#f87171;border-color:rgba(226,75,74,0.4)" id="btn-confirm-clear">Clear all responses</button>
-        <button class="btn btn-outline" id="btn-change-pin">Change PIN</button>
+        <button class="btn btn-outline" style="color:#5DCAA5;border-color:rgba(29,158,117,0.6)" id="btn-export-pdf">Export to PDF</button>
+        <button class="btn btn-outline" style="color:#f87171;border-color:rgba(226,75,74,0.6)" id="btn-confirm-clear">Clear all responses</button>
       </div>
       <div class="confirm-bar" id="confirm-bar" role="alert">
         <span class="confirm-text">This permanently deletes all responses for everyone. Are you sure?</span>
         <button class="btn btn-red" id="btn-clear-all" style="white-space:nowrap;padding:6px 14px;font-size:13px">Yes, clear all</button>
         <button class="btn btn-outline" id="btn-cancel-clear">Cancel</button>
       </div>
+      <div class="pin-error" id="instr-error-2" role="alert" aria-live="polite"></div>
     </div>
   </div>
 
@@ -351,7 +349,8 @@ input[type=password]::placeholder{color:rgba(255,255,255,0.25)}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, addDoc, deleteDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, deleteDoc, getDocs, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD36GaAMl08xir1EO8OyI0uGWyZXNn_p9A",
@@ -365,6 +364,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 const COLLECTIONS = {
   feelings: 'mci_feelings',
@@ -388,7 +388,6 @@ const WORD_COLORS=[
 const RESP_COLORS=['#b91c1c','#534AB7','#0F6E56','#854F0B','#72243E','#185FA5','#3B6D11'];
 const SIZES=[38,32,26,21,17,14];
 
-let storedPin=null;
 let connected=false;
 let answeredQ={q2:false,q3:false,q4:false,q5:false};
 let q1submitted=0;
@@ -424,9 +423,7 @@ async function submitQ1(){
   if(!key){setStatus('q1-status','Please enter a valid word.','err');return;}
   try{
     const ref=doc(db,COLLECTIONS.feelings,key);
-    const snap=await getDoc(ref);
-    if(snap.exists()){await setDoc(ref,{word:val,count:snap.data().count+1},{merge:true});}
-    else{await setDoc(ref,{word:val,count:1});}
+    await setDoc(ref,{word:val,count:increment(1)},{merge:true});
     document.getElementById('q1-input').value='';
     document.getElementById('q1-chars').textContent='0 / 20';
     q1submitted++;
@@ -465,6 +462,7 @@ function showSurvey(){
 function renderCloud(data){
   const canvas=document.getElementById('cloud-canvas');
   if(!data||!data.length){
+    canvas.setAttribute('role','group');
     canvas.innerHTML='<span class="empty-msg">No words submitted yet</span>';
     document.getElementById('r1-count').textContent='';
     return;
@@ -474,12 +472,14 @@ function renderCloud(data){
   const maxCount=sorted[0].count;
   document.getElementById('r1-count').textContent=total+' response'+(total===1?'':'s');
   canvas.innerHTML='';
+  canvas.setAttribute('role','list');
   sorted.forEach((item,i)=>{
     const ratio=maxCount>1?(item.count-1)/(maxCount-1):1;
     const sIdx=Math.round((1-ratio)*(SIZES.length-1));
     const col=WORD_COLORS[i%WORD_COLORS.length];
     const span=document.createElement('span');
     span.className='cloud-word';
+    span.setAttribute('role','listitem');
     span.textContent=item.word;
     span.style.cssText=`font-size:${SIZES[sIdx]}px;background:${col.bg};color:${col.text};font-weight:${item.count===maxCount?600:400};border:0.5px solid ${col.text.replace(')',',0.3)').replace('rgb','rgba')};`;
     span.setAttribute('aria-label',item.word+', '+item.count+(item.count===1?' response':' responses'));
@@ -529,64 +529,31 @@ function setStatus(id,msg,type){
     if(q==='q1')inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();submitQ1();}});
   }
 });
-async function handlePin(){
-  const val=document.getElementById('pin-input').value.trim();
-  if(!val){setPinError('Please enter a PIN.');return;}
-  if(!storedPin){
-    if(val.length<4){setPinError('PIN must be at least 4 characters.');return;}
-    try{
-      await setDoc(doc(db,COLLECTIONS.settings,'pin'),{value:val});
-      storedPin=val;setPinError('');setUnlocked(true);
-    }catch(e){setPinError('Could not save PIN. Check your connection.');}
-  }else{
-    if(val===storedPin){setPinError('');setUnlocked(true);}
-    else{setPinError('Incorrect PIN. Please try again.');}
-  }
-  document.getElementById('pin-input').value='';
+function setInstrError(msg){
+  const el=document.getElementById('instr-error');
+  const el2=document.getElementById('instr-error-2');
+  el.textContent=msg;el2.textContent=msg;
+  if(msg)setTimeout(()=>{if(el.textContent===msg){el.textContent='';el2.textContent='';}},6000);
 }
 
-async function loadPin(){
-  try{
-    const snap=await getDoc(doc(db,COLLECTIONS.settings,'pin'));
-    if(snap.exists()&&snap.data().value)storedPin=snap.data().value;
-  }catch(e){}
-  updatePinUI();
+async function signInInstructor(){
+  try{await signInWithPopup(auth,new GoogleAuthProvider());setInstrError('');}
+  catch(e){setInstrError('Sign-in was cancelled or blocked. Allow pop-ups and try again.');}
 }
 
-function updatePinUI(){
-  const setupMsg=document.getElementById('pin-setup-msg');
-  const pinBtn=document.getElementById('pin-btn');
-  const pinInput=document.getElementById('pin-input');
-  if(!storedPin){setupMsg.style.display='block';pinBtn.textContent='Set PIN';pinInput.placeholder='Create a PIN';}
-  else{setupMsg.style.display='none';pinBtn.textContent='Unlock';pinInput.placeholder='Enter PIN';}
-}
-
-function setUnlocked(state){
-  document.getElementById('pin-area').style.display=state?'none':'block';
-  document.getElementById('unlocked-badge').style.display=state?'inline-flex':'none';
-  const ctrl=document.getElementById('unlocked-controls');
-  if(state)ctrl.classList.add('show');else ctrl.classList.remove('show');
-}
-
-function lockInstructor(){
+function signOutInstructor(){
   document.getElementById('confirm-bar').classList.remove('show');
-  setUnlocked(false);
-  document.getElementById('pin-setup-msg').style.display='none';
-  document.getElementById('pin-btn').textContent='Unlock';
-  document.getElementById('pin-input').placeholder='Enter PIN';
-  document.getElementById('pin-input').value='';
-  document.getElementById('pin-error').textContent='';
+  signOut(auth);
 }
 
-async function changePin(){
-  try{await setDoc(doc(db,COLLECTIONS.settings,'pin'),{value:''});}catch(e){}
-  storedPin=null;setUnlocked(false);updatePinUI();
-  setTimeout(()=>document.getElementById('pin-input').focus(),50);
-}
-
-function setPinError(msg){
-  document.getElementById('pin-error').textContent=msg;
-  if(msg)setTimeout(()=>{if(document.getElementById('pin-error').textContent===msg)document.getElementById('pin-error').textContent='';},4000);
+function applyAuth(user){
+  const signedIn=!!user;
+  document.getElementById('signin-area').style.display=signedIn?'none':'block';
+  document.getElementById('unlocked-badge').style.display=signedIn?'inline-flex':'none';
+  const ctrl=document.getElementById('unlocked-controls');
+  if(signedIn)ctrl.classList.add('show');else ctrl.classList.remove('show');
+  document.getElementById('instructor-who').textContent=signedIn?('Signed in as '+user.email):'';
+  if(!signedIn)document.getElementById('confirm-bar').classList.remove('show');
 }
 
 function confirmClear(){document.getElementById('confirm-bar').classList.add('show');}
@@ -600,7 +567,10 @@ async function clearAll(){
       for(const d of snap.docs)await deleteDoc(d.ref);
     }
     document.getElementById('confirm-bar').classList.remove('show');
-  }catch(e){alert('Could not clear — check your connection.');}
+  }catch(e){
+    document.getElementById('confirm-bar').classList.remove('show');
+    setInstrError(e&&e.code==='permission-denied'?'This Google account is not authorized to clear responses. Sign out and use your faculty account.':'Could not clear — check your connection.');
+  }
 }
 
 async function exportToPDF(){
@@ -698,13 +668,11 @@ document.getElementById('btn-q4').addEventListener('click',()=>submitQ('q4',COLL
 document.getElementById('btn-q5').addEventListener('click',()=>submitQ('q5',COLLECTIONS.improve,'q5'));
 document.getElementById('btn-show-results').addEventListener('click',showResults);
 document.getElementById('btn-show-survey').addEventListener('click',showSurvey);
-document.getElementById('btn-lock').addEventListener('click',lockInstructor);
-document.getElementById('pin-btn').addEventListener('click',handlePin);
-document.getElementById('pin-input').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();handlePin();}});
+document.getElementById('btn-lock').addEventListener('click',signOutInstructor);
+document.getElementById('btn-signin').addEventListener('click',signInInstructor);
 document.getElementById('btn-confirm-clear').addEventListener('click',confirmClear);
 document.getElementById('btn-cancel-clear').addEventListener('click',cancelClear);
 document.getElementById('btn-clear-all').addEventListener('click',clearAll);
-document.getElementById('btn-change-pin').addEventListener('click',changePin);
 
 onSnapshot(collection(db,COLLECTIONS.feelings),(snap)=>{
   setConnection('ok');
@@ -724,7 +692,7 @@ onSnapshot(collection(db,COLLECTIONS.improve),(snap)=>{
   renderList(snap.docs.map(d=>({id:d.id,...d.data()})),'r5-list','r5-count',1);
 },(err)=>{});
 
-loadPin();
+onAuthStateChanged(auth,(user)=>applyAuth(user));
 updateProgress();
 </script>
 </body>

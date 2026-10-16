@@ -9,26 +9,26 @@
 body{font-family:system-ui,sans-serif;color:#1a1a1a;background:#f5f5f3;min-height:100vh;padding-bottom:3rem}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .page{padding:1.5rem 1rem;max-width:800px;margin:0 auto}
-.hero{background:#7F77DD;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem}
+.hero{background:#4B3FA8;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem}
 .hero h1{font-size:22px;font-weight:500;color:#fff;margin-bottom:4px}
 .hero p{font-size:14px;color:#CECBF6;line-height:1.5}
 .section{background:#fff;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:1.25rem;margin-bottom:1.25rem}
 .section-title{font-size:16px;font-weight:500;margin-bottom:4px;color:#1a1a1a}
 .subtitle{font-size:13px;color:#666;margin-bottom:1rem;line-height:1.5}
 label{display:block;font-size:14px;font-weight:500;margin-bottom:6px;color:#1a1a1a}
-input[type=text],input[type=password],textarea{width:100%;border:0.5px solid rgba(0,0,0,0.25);border-radius:8px;padding:8px 12px;font-size:15px;font-family:inherit;background:#fff;color:#1a1a1a}
-input[type=text]:focus,input[type=password]:focus,textarea:focus{outline:3px solid #7F77DD;outline-offset:2px}
+input[type=text],input[type=password],textarea{width:100%;border:1px solid #767676;border-radius:8px;padding:8px 12px;font-size:15px;font-family:inherit;background:#fff;color:#1a1a1a}
+input[type=text]:focus,input[type=password]:focus,textarea:focus{outline:3px solid #4B3FA8;outline-offset:2px}
 textarea{resize:vertical;min-height:80px}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:background 0.15s;border:none}
 .btn:active{transform:scale(0.98)}
-.btn:focus-visible{outline:3px solid #7F77DD;outline-offset:2px}
-.btn-purple{background:#7F77DD;color:#fff}
-.btn-purple:hover{background:#534AB7}
-.btn-teal{background:#1D9E75;color:#fff}
-.btn-teal:hover{background:#0F6E56}
-.btn-danger{background:#E24B4A;color:#fff;font-size:13px;padding:6px 14px}
-.btn-danger:hover{background:#A32D2D}
-.btn-outline{background:transparent;border:0.5px solid rgba(0,0,0,0.25);color:#555;font-size:13px;padding:6px 14px}
+.btn:focus-visible{outline:3px solid #4B3FA8;outline-offset:2px}
+.btn-purple{background:#4B3FA8;color:#fff}
+.btn-purple:hover{background:#372E86}
+.btn-teal{background:#0F6E56;color:#fff}
+.btn-teal:hover{background:#0A5442}
+.btn-danger{background:#B42318;color:#fff;font-size:13px;padding:6px 14px}
+.btn-danger:hover{background:#8A1B12}
+.btn-outline{background:transparent;border:1px solid #767676;color:#555;font-size:13px;padding:6px 14px}
 .btn-outline:hover{background:#f0f0f0}
 .btn-sm{font-size:13px;padding:6px 14px}
 #cloud-canvas{width:100%;min-height:200px;border:0.5px dashed rgba(0,0,0,0.15);border-radius:8px;margin-top:1rem;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;padding:1rem}
@@ -40,15 +40,15 @@ textarea{resize:vertical;min-height:80px}
 .status{font-size:13px;margin-top:8px;min-height:18px;font-weight:500}
 .status.ok{color:#0F6E56}
 .status.err{color:#A32D2D}
-.empty{font-size:14px;color:#888;text-align:center;padding:2rem 0;width:100%}
+.empty{font-size:14px;color:#595959;text-align:center;padding:2rem 0;width:100%}
 .tab-bar{display:flex;margin-bottom:1.25rem;border-radius:8px;overflow:hidden;border:0.5px solid rgba(0,0,0,0.2)}
 .tab{flex:1;padding:9px 12px;font-size:14px;font-weight:500;background:transparent;border:none;cursor:pointer;color:#555;transition:background 0.15s}
-.tab.active{background:#7F77DD;color:#fff}
-.tab:focus-visible{outline:3px solid #7F77DD;outline-offset:2px}
+.tab.active{background:#4B3FA8;color:#fff}
+.tab:focus-visible{outline:3px solid #4B3FA8;outline-offset:2px}
 .panel{display:none}.panel.active{display:block}
-.char-count{font-size:12px;color:#888;text-align:right;margin-top:2px}
+.char-count{font-size:12px;color:#595959;text-align:right;margin-top:2px}
 .row{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap}
-.counts{font-size:12px;color:#888;margin-top:4px}
+.counts{font-size:12px;color:#595959;margin-top:4px}
 .connection-bar{font-size:12px;padding:6px 12px;border-radius:8px;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
 .connection-bar.ok{background:#E1F5EE;color:#085041}
 .connection-bar.err{background:#FCEBEB;color:#791F1F}
@@ -56,7 +56,7 @@ textarea{resize:vertical;min-height:80px}
 .dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
 .dot.ok{background:#1D9E75}
 .dot.err{background:#E24B4A}
-.dot.loading{background:#7F77DD}
+.dot.loading{background:#4B3FA8}
 .instructor-section{background:#f0f0ee;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:1.25rem;margin-top:1.5rem}
 .instructor-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .instructor-title{font-size:13px;font-weight:500;color:#666;letter-spacing:0.03em}
@@ -109,7 +109,7 @@ textarea{resize:vertical;min-height:80px}
     <div class="section">
       <div class="section-title">Our class word cloud</div>
       <div class="counts" id="cloud-counts"></div>
-      <div id="cloud-canvas" aria-label="Word cloud of student feelings" role="img">
+      <div id="cloud-canvas" aria-label="Word cloud of student feelings" role="group">
         <span class="empty">Words will appear here as students submit</span>
       </div>
     </div>
@@ -140,28 +140,26 @@ textarea{resize:vertical;min-height:80px}
     <div class="instructor-header">
       <span class="instructor-title">Instructor controls</span>
       <span id="unlocked-badge" style="display:none" class="unlock-badge">
-        Unlocked
-        <button class="lock-link" onclick="lockInstructor()" aria-label="Lock instructor controls">Lock</button>
+        Signed in
+        <button class="lock-link" onclick="signOutInstructor()" aria-label="Sign out of instructor controls">Sign out</button>
       </span>
     </div>
-    <div id="pin-area">
-      <div id="pin-setup-msg" class="pin-setup" style="display:none">No PIN set yet. Create a PIN below to protect these controls.</div>
-      <div class="pin-row">
-        <input type="password" id="pin-input" maxlength="8" placeholder="Enter PIN" aria-label="Instructor PIN" autocomplete="off" style="width:140px"/>
-        <button class="btn btn-purple btn-sm" id="pin-btn" onclick="handlePin()">Unlock</button>
-      </div>
-      <div class="pin-error" id="pin-error" role="alert" aria-live="polite"></div>
+    <div id="signin-area">
+      <p class="pin-setup">Faculty sign in with Google to use these controls.</p>
+      <button class="btn btn-purple btn-sm" onclick="signInInstructor()">Faculty sign in with Google</button>
+      <div class="pin-error" id="instr-error" role="alert" aria-live="polite"></div>
     </div>
     <div class="unlocked-controls" id="unlocked-controls">
+      <p class="pin-setup" id="instructor-who"></p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
         <button class="btn btn-danger" onclick="confirmClear()">Clear all responses</button>
-        <button class="btn btn-outline btn-sm" onclick="changePin()">Change PIN</button>
       </div>
       <div class="confirm-bar" id="confirm-bar" role="alert">
         <span class="confirm-text">This will permanently delete all words and questions for everyone. Are you sure?</span>
         <button class="btn btn-danger" onclick="clearAll()" style="white-space:nowrap">Yes, clear all</button>
         <button class="btn btn-outline" onclick="cancelClear()">Cancel</button>
       </div>
+      <div class="pin-error" id="instr-error-2" role="alert" aria-live="polite"></div>
     </div>
   </div>
 
@@ -169,7 +167,8 @@ textarea{resize:vertical;min-height:80px}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, addDoc, deleteDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, deleteDoc, getDocs, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD36GaAMl08xir1EO8OyI0uGWyZXNn_p9A",
@@ -183,6 +182,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 const WORD_COLORS=[
   {bg:'#EEEDFE',text:'#3C3489'},{bg:'#E1F5EE',text:'#085041'},
@@ -191,15 +191,14 @@ const WORD_COLORS=[
   {bg:'#FAECE7',text:'#712B13'},{bg:'#FCEBEB',text:'#791F1F'},
 ];
 const Q_COLORS=[
-  {bg:'#EEEDFE',badge:'#534AB7',bt:'#fff'},{bg:'#E1F5EE',badge:'#1D9E75',bt:'#fff'},
-  {bg:'#E6F1FB',badge:'#378ADD',bt:'#fff'},{bg:'#FBEAF0',badge:'#D4537E',bt:'#fff'},
-  {bg:'#EAF3DE',badge:'#639922',bt:'#fff'},{bg:'#FAEEDA',badge:'#BA7517',bt:'#fff'},
+  {bg:'#EEEDFE',badge:'#534AB7',bt:'#fff'},{bg:'#E1F5EE',badge:'#0F6E56',bt:'#fff'},
+  {bg:'#E6F1FB',badge:'#1B5FA8',bt:'#fff'},{bg:'#FBEAF0',badge:'#A8325A',bt:'#fff'},
+  {bg:'#EAF3DE',badge:'#3F6B14',bt:'#fff'},{bg:'#FAEEDA',badge:'#8A5200',bt:'#fff'},
 ];
 const SIZES=[36,30,24,20,16,13];
 
 let feelings={};
 let questions=[];
-let storedPin=null;
 let connected=false;
 
 function setConnection(state){
@@ -214,67 +213,31 @@ function setConnection(state){
   connected=(state==='ok');
 }
 
-async function loadPin(){
-  try{
-    const snap=await getDoc(doc(db,'firstday_settings','pin'));
-    if(snap.exists()&&snap.data().value){storedPin=snap.data().value;}
-  }catch(e){}
-  updatePinUI();
+function setInstrError(msg){
+  const el=document.getElementById('instr-error');
+  const el2=document.getElementById('instr-error-2');
+  el.textContent=msg;el2.textContent=msg;
+  if(msg)setTimeout(()=>{if(el.textContent===msg){el.textContent='';el2.textContent='';}},6000);
 }
 
-function updatePinUI(){
-  const setupMsg=document.getElementById('pin-setup-msg');
-  const pinBtn=document.getElementById('pin-btn');
-  const pinInput=document.getElementById('pin-input');
-  if(!storedPin){setupMsg.style.display='block';pinBtn.textContent='Set PIN';pinInput.placeholder='Create a PIN';}
-  else{setupMsg.style.display='none';pinBtn.textContent='Unlock';pinInput.placeholder='Enter PIN';}
+window.signInInstructor=async function(){
+  try{await signInWithPopup(auth,new GoogleAuthProvider());setInstrError('');}
+  catch(e){setInstrError('Sign-in was cancelled or blocked. Allow pop-ups and try again.');}
 }
 
-window.handlePin=async function(){
-  const val=document.getElementById('pin-input').value.trim();
-  if(!val){setPinError('Please enter a PIN.');return;}
-  if(!storedPin){
-    if(val.length<4){setPinError('PIN must be at least 4 characters.');return;}
-    try{
-      await setDoc(doc(db,'firstday_settings','pin'),{value:val});
-      storedPin=val;setPinError('');setUnlocked(true);
-    }catch(e){setPinError('Could not save PIN. Check your connection.');}
-  } else {
-    if(val===storedPin){setPinError('');setUnlocked(true);}
-    else{setPinError('Incorrect PIN. Please try again.');}
-  }
-  document.getElementById('pin-input').value='';
-}
-
-function setUnlocked(state){
-  document.getElementById('pin-area').style.display=state?'none':'block';
-  document.getElementById('unlocked-badge').style.display=state?'inline-flex':'none';
-  const ctrl=document.getElementById('unlocked-controls');
-  if(state)ctrl.classList.add('show');else ctrl.classList.remove('show');
-}
-
-window.lockInstructor=function(){
+window.signOutInstructor=function(){
   document.getElementById('confirm-bar').classList.remove('show');
-  setUnlocked(false);
-  const setupMsg=document.getElementById('pin-setup-msg');
-  const pinBtn=document.getElementById('pin-btn');
-  const pinInput=document.getElementById('pin-input');
-  setupMsg.style.display='none';
-  pinBtn.textContent='Unlock';
-  pinInput.placeholder='Enter PIN';
-  pinInput.value='';
-  document.getElementById('pin-error').textContent='';
+  signOut(auth);
 }
 
-window.changePin=async function(){
-  try{await setDoc(doc(db,'firstday_settings','pin'),{value:''});}catch(e){}
-  storedPin=null;setUnlocked(false);updatePinUI();
-  setTimeout(()=>document.getElementById('pin-input').focus(),50);
-}
-
-function setPinError(msg){
-  document.getElementById('pin-error').textContent=msg;
-  if(msg)setTimeout(()=>{if(document.getElementById('pin-error').textContent===msg)document.getElementById('pin-error').textContent='';},4000);
+function applyAuth(user){
+  const signedIn=!!user;
+  document.getElementById('signin-area').style.display=signedIn?'none':'block';
+  document.getElementById('unlocked-badge').style.display=signedIn?'inline-flex':'none';
+  const ctrl=document.getElementById('unlocked-controls');
+  if(signedIn)ctrl.classList.add('show');else ctrl.classList.remove('show');
+  document.getElementById('instructor-who').textContent=signedIn?('Signed in as '+user.email):'';
+  if(!signedIn)document.getElementById('confirm-bar').classList.remove('show');
 }
 
 window.switchTab=function(t){
@@ -288,7 +251,6 @@ window.switchTab=function(t){
 document.getElementById('feeling-input').addEventListener('input',function(){document.getElementById('feeling-chars').textContent=this.value.length+' / 40';});
 document.getElementById('question-input').addEventListener('input',function(){document.getElementById('q-chars').textContent=this.value.length+' / 400';});
 document.getElementById('feeling-input').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();submitFeeling();}});
-document.getElementById('pin-input').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();handlePin();}});
 
 window.submitFeeling=async function(){
   const val=document.getElementById('feeling-input').value.trim();
@@ -298,9 +260,7 @@ window.submitFeeling=async function(){
   if(!key){setStatus('feeling-status','Please enter a valid word or phrase.','err');return;}
   try{
     const ref=doc(db,'firstday_feelings',key);
-    const snap=await getDoc(ref);
-    if(snap.exists()){await setDoc(ref,{word:val,count:snap.data().count+1},{merge:true});}
-    else{await setDoc(ref,{word:val,count:1});}
+    await setDoc(ref,{word:val,count:increment(1)},{merge:true});
     document.getElementById('feeling-input').value='';
     document.getElementById('feeling-chars').textContent='0 / 40';
     setStatus('feeling-status','Added! Feel free to share another.','ok');
@@ -331,12 +291,16 @@ window.clearAll=async function(){
     const qSnap=await getDocs(collection(db,'firstday_questions'));
     for(const d of qSnap.docs){await deleteDoc(d.ref);}
     document.getElementById('confirm-bar').classList.remove('show');
-  }catch(e){alert('Could not clear — check your connection.');}
+  }catch(e){
+    document.getElementById('confirm-bar').classList.remove('show');
+    setInstrError(e&&e.code==='permission-denied'?'This Google account is not authorized to clear responses. Sign out and use your faculty account.':'Could not clear — check your connection.');
+  }
 }
 
 function renderCloud(data){
   const canvas=document.getElementById('cloud-canvas');
   if(!data||!data.length){
+    canvas.setAttribute('role','group');
     canvas.innerHTML='<span class="empty">Words will appear here as students submit</span>';
     document.getElementById('cloud-counts').textContent='';
     return;
@@ -346,12 +310,14 @@ function renderCloud(data){
   const maxCount=sorted[0].count;
   document.getElementById('cloud-counts').textContent=sorted.length+' unique word'+(sorted.length===1?'':'s')+', '+total+' total submission'+(total===1?'':'s');
   canvas.innerHTML='';
+  canvas.setAttribute('role','list');
   sorted.forEach((item,i)=>{
     const ratio=maxCount>1?(item.count-1)/(maxCount-1):1;
     const sIdx=Math.round((1-ratio)*(SIZES.length-1));
     const col=WORD_COLORS[i%WORD_COLORS.length];
     const span=document.createElement('span');
     span.className='cloud-word';
+    span.setAttribute('role','listitem');
     span.textContent=item.word;
     span.style.cssText=`font-size:${SIZES[sIdx]}px;background:${col.bg};color:${col.text};font-weight:${item.count===maxCount?500:400};`;
     span.setAttribute('aria-label',item.word+', '+item.count+(item.count===1?' response':' responses'));
@@ -403,7 +369,7 @@ onSnapshot(collection(db,'firstday_questions'),(snap)=>{
   renderQuestions(data);
 },(err)=>{});
 
-loadPin();
+onAuthStateChanged(auth,(user)=>applyAuth(user));
 </script>
 </body>
 </html>

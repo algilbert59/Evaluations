@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>First Day Student Board</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#1a1a1a;background:#f5f5f3;min-height:100vh;padding-bottom:3rem}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.page{padding:1.5rem 1rem;max-width:800px;margin:0 auto}
+.hero{background:#4B3FA8;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem}
+.hero h1{font-size:22px;font-weight:500;color:#fff;margin-bottom:4px}
+.hero p{font-size:14px;color:#CECBF6;line-height:1.5}
+.section{background:#fff;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:1.25rem;margin-bottom:1.25rem}
+.section-title{font-size:16px;font-weight:500;margin-bottom:4px;color:#1a1a1a}
+.subtitle{font-size:13px;color:#666;margin-bottom:1rem;line-height:1.5}
+label{display:block;font-size:14px;font-weight:500;margin-bottom:6px;color:#1a1a1a}
+input[type=text],input[type=password],textarea{width:100%;border:1px solid #767676;border-radius:8px;padding:8px 12px;font-size:15px;font-family:inherit;background:#fff;color:#1a1a1a}
+input[type=text]:focus,input[type=password]:focus,textarea:focus{outline:3px solid #4B3FA8;outline-offset:2px}
+textarea{resize:vertical;min-height:80px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:background 0.15s;border:none}
+.btn:active{transform:scale(0.98)}
+.btn:focus-visible{outline:3px solid #4B3FA8;outline-offset:2px}
+.btn-purple{background:#4B3FA8;color:#fff}
+.btn-purple:hover{background:#372E86}
+.btn-teal{background:#0F6E56;color:#fff}
+.btn-teal:hover{background:#0A5442}
+.btn-danger{background:#B42318;color:#fff;font-size:13px;padding:6px 14px}
+.btn-danger:hover{background:#8A1B12}
+.btn-outline{background:transparent;border:1px solid #767676;color:#555;font-size:13px;padding:6px 14px}
+.btn-outline:hover{background:#f0f0f0}
+.btn-sm{font-size:13px;padding:6px 14px}
+#cloud-canvas{width:100%;min-height:200px;border:0.5px dashed rgba(0,0,0,0.15);border-radius:8px;margin-top:1rem;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;padding:1rem}
+.cloud-word{display:inline-block;line-height:1.2;padding:3px 8px;border-radius:20px;transition:transform 0.15s;cursor:default}
+.cloud-word:hover{transform:scale(1.1)}
+.q-list{margin-top:1rem;display:flex;flex-direction:column;gap:10px}
+.q-card{border-radius:8px;padding:12px 14px;font-size:14px;line-height:1.6}
+.q-card .q-num{font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:6px}
+.status{font-size:13px;margin-top:8px;min-height:18px;font-weight:500}
+.status.ok{color:#0F6E56}
+.status.err{color:#A32D2D}
+.empty{font-size:14px;color:#595959;text-align:center;padding:2rem 0;width:100%}
+.tab-bar{display:flex;margin-bottom:1.25rem;border-radius:8px;overflow:hidden;border:0.5px solid rgba(0,0,0,0.2)}
+.tab{flex:1;padding:9px 12px;font-size:14px;font-weight:500;background:transparent;border:none;cursor:pointer;color:#555;transition:background 0.15s}
+.tab.active{background:#4B3FA8;color:#fff}
+.tab:focus-visible{outline:3px solid #4B3FA8;outline-offset:2px}
+.panel{display:none}.panel.active{display:block}
+.char-count{font-size:12px;color:#595959;text-align:right;margin-top:2px}
+.row{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap}
+.counts{font-size:12px;color:#595959;margin-top:4px}
+.connection-bar{font-size:12px;padding:6px 12px;border-radius:8px;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.connection-bar.ok{background:#E1F5EE;color:#085041}
+.connection-bar.err{background:#FCEBEB;color:#791F1F}
+.connection-bar.loading{background:#EEEDFE;color:#3C3489}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+.dot.ok{background:#1D9E75}
+.dot.err{background:#E24B4A}
+.dot.loading{background:#4B3FA8}
+.instructor-section{background:#f0f0ee;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:1.25rem;margin-top:1.5rem}
+.instructor-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.instructor-title{font-size:13px;font-weight:500;color:#666;letter-spacing:0.03em}
+.pin-setup{font-size:13px;color:#666;line-height:1.5;margin-bottom:10px}
+.pin-row{display:flex;gap:8px;align-items:center;margin-top:12px}
+.pin-error{font-size:13px;color:#A32D2D;margin-top:6px;min-height:18px}
+.unlocked-controls{display:none;margin-top:12px;padding-top:12px;border-top:0.5px solid rgba(0,0,0,0.12)}
+.unlocked-controls.show{display:block}
+.confirm-bar{display:none;align-items:center;gap:8px;margin-top:10px;background:#FCEBEB;border:0.5px solid #F09595;border-radius:8px;padding:8px 12px;flex-wrap:wrap}
+.confirm-bar.show{display:flex}
+.confirm-text{font-size:13px;color:#791F1F;flex:1;min-width:160px}
+.unlock-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#0F6E56;font-weight:500;padding:4px 10px;background:#E1F5EE;border-radius:20px}
+.lock-link{font-size:12px;color:#666;cursor:pointer;text-decoration:underline;background:none;border:none;padding:0;font-family:inherit}
+.lock-link:hover{color:#1a1a1a}
+/* ===== Student check-in tab (scoped so the original tabs are unaffected) ===== */
+#panel-checkin,#ci-confirm{--ink:#1b2a33;--muted:#44545e;--brand:#4b3fa8;--brand-dark:#372e86;--accent:#7a3b00;--line:#6b7f8b;--err:#a30f1f;--ok:#0a5c2e;--focus:#b45f00}
+#panel-checkin{font-size:1.0625rem;line-height:1.55;color:var(--ink)}
+#panel-checkin [hidden],#ci-confirm [hidden]{display:none!important}
+#panel-checkin p{margin:.5rem 0}
+#panel-checkin h2{font-size:1.35rem;font-weight:600;color:var(--brand-dark);margin:0 0 .5rem}
+#panel-checkin h3{font-size:1.15rem;font-weight:600;color:var(--brand-dark);margin:0}
+#panel-checkin a{color:var(--brand-dark)}
+#panel-checkin :focus-visible,#ci-confirm :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+#panel-checkin h2:focus{outline:none}
+#panel-checkin .ci-note{background:#eeedfe;border:1px solid #b9b4ee;border-radius:8px;padding:.6rem .9rem}
+#panel-checkin .ci-field{margin:1rem 0}
+#panel-checkin label,#panel-checkin legend{display:block;font-size:1.0625rem;font-weight:700;margin:0 0 .25rem;color:var(--ink)}
+#panel-checkin .ci-hint{display:block;color:var(--muted);font-size:.95rem;font-weight:400}
+#panel-checkin .ci-req{color:var(--err)}
+#panel-checkin input[type=text],#panel-checkin input[type=email],#panel-checkin input[type=tel]{width:100%;min-height:44px;padding:.5rem .75rem;font:inherit;border:2px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+#panel-checkin input[aria-invalid=true]{border-color:var(--err);background:#fff6f6}
+#panel-checkin .ci-error{color:var(--err);font-weight:600;margin:.25rem 0 0}
+#panel-checkin .ci-error:empty{display:none}
+#panel-checkin .ci-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:0 1rem}
+#panel-checkin fieldset{border:2px solid var(--line);border-radius:8px;padding:.75rem 1rem;margin:1rem 0;min-width:0}
+#panel-checkin .ci-choice{display:flex;align-items:center;gap:.6rem;min-height:44px;font-weight:600;margin:0}
+#panel-checkin .ci-choice input{width:24px;height:24px;flex:none;accent-color:var(--brand);margin:0}
+#panel-checkin .ci-btn,#ci-confirm .ci-btn{display:inline-flex;align-items:center;justify-content:center;font:inherit;font-weight:700;min-height:44px;padding:.55rem 1.1rem;border-radius:8px;border:2px solid var(--brand-dark);background:var(--brand);color:#fff;cursor:pointer}
+#panel-checkin .ci-btn:hover{background:var(--brand-dark)}
+#panel-checkin .ci-btn.ci-secondary,#ci-confirm .ci-btn.ci-secondary{background:#fff;color:var(--brand-dark)}
+#panel-checkin .ci-btn.ci-secondary:hover{background:#eeedfe}
+#panel-checkin .ci-btn.ci-danger,#ci-confirm .ci-btn.ci-danger{background:#fff;color:var(--err);border-color:var(--err)}
+#panel-checkin .ci-btn.ci-danger:hover{background:#fff0f0}
+#panel-checkin .ci-btn:disabled{opacity:.6;cursor:not-allowed}
+#panel-checkin .ci-row,#ci-confirm .ci-row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.5rem 0}
+#panel-checkin .ci-camera{display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start}
+#panel-checkin .ci-preview{width:240px;height:240px;border:2px dashed var(--line);border-radius:12px;background:#eef3f6;display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center;padding:0;color:var(--muted)}
+#panel-checkin .ci-preview video,#panel-checkin .ci-preview img{width:100%;height:100%;object-fit:cover;display:block}
+#panel-checkin .ci-preview video{transform:scaleX(-1)}
+#panel-checkin .ci-summary{border:3px solid var(--err);border-radius:8px;background:#fff6f6;padding:.75rem 1rem;margin:1rem 0}
+#panel-checkin .ci-summary h3{color:var(--err);margin:0 0 .4rem}
+#panel-checkin .ci-summary ul{margin:0;padding-left:1.25rem}
+#panel-checkin .ci-status{margin:.75rem 0;font-weight:700;min-height:1.5em}
+#panel-checkin .ci-status.ok{color:var(--ok)}
+#panel-checkin .ci-status.bad{color:var(--err)}
+#panel-checkin .ci-group-head{display:flex;align-items:baseline;gap:.5rem;border-bottom:3px solid var(--brand);margin-top:1.5rem;padding-bottom:.2rem}
+#panel-checkin .ci-count{color:var(--muted);font-size:1rem;font-weight:600}
+#panel-checkin ul.ci-gallery{list-style:none;margin:1rem 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1rem}
+#panel-checkin ul.ci-gallery li{background:#fff;border:1px solid var(--line);border-radius:12px;padding:.6rem;text-align:center}
+#panel-checkin ul.ci-gallery img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;display:block}
+#panel-checkin ul.ci-gallery .ci-nm{display:block;margin-top:.4rem;font-weight:700;overflow-wrap:anywhere}
+#panel-checkin .ci-empty{color:var(--muted);font-style:italic}
+#panel-checkin .ci-table-wrap{overflow-x:auto}
+#panel-checkin table{border-collapse:collapse;width:100%;min-width:46rem}
+#panel-checkin caption{text-align:left;font-weight:700;padding:.4rem 0}
+#panel-checkin th,#panel-checkin td{border:1px solid var(--line);padding:.4rem .6rem;text-align:left;vertical-align:middle;font-size:1rem}
+#panel-checkin thead th{background:#e4e1fa}
+#panel-checkin tr.ci-course-row th{background:#f1e3d3;color:var(--accent);font-size:1.05rem}
+#panel-checkin td img{width:56px;height:56px;object-fit:cover;border-radius:6px;display:block}
+#ci-confirm{font-size:1.0625rem;line-height:1.55;color:var(--ink);border:3px solid var(--brand-dark);border-radius:12px;max-width:30rem;padding:1.25rem}
+#ci-confirm h2{margin:0 0 .5rem;font-size:1.3rem;color:var(--brand-dark)}
+#ci-confirm p{margin:.5rem 0}
+#ci-confirm::backdrop{background:rgba(0,0,0,.55)}
+</style>
+</head>
+<body>
+
+<h2 class="sr-only">First Day of Class — Student Feelings Board and Anonymous Q&A</h2>
+
+<div class="page">
+
+  <div class="hero">
+    <h1>Welcome to your first day!</h1>
+    <p>Share how you're feeling and ask anything — all responses are anonymous and visible to the class in real time.</p>
+  </div>
+
+  <div id="connection-bar" class="connection-bar loading">
+    <span class="dot loading" id="conn-dot"></span>
+    <span id="conn-text">Connecting to class board...</span>
+  </div>
+
+  <div class="tab-bar" role="tablist" aria-label="Board sections">
+    <button class="tab active" role="tab" aria-selected="true" aria-controls="panel-cloud" id="tab-cloud" onclick="switchTab('cloud')">How I'm feeling</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-qa" id="tab-qa" onclick="switchTab('qa')">Ask a question</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-checkin" id="tab-checkin" onclick="switchTab('checkin')">Student check-in</button>
+  </div>
+
+  <div id="panel-cloud" class="panel active" role="tabpanel" aria-labelledby="tab-cloud">
+    <div class="section">
+      <div class="section-title">Share a word or phrase</div>
+      <p class="subtitle">Anonymous — add as many words as you'd like. Everyone's words appear in the cloud below in real time.</p>
+      <label for="feeling-input">How are you feeling right now?</label>
+      <div class="row">
+        <input type="text" id="feeling-input" maxlength="40" placeholder="e.g. Nervous, Excited, Ready..." style="flex:1;min-width:160px" aria-required="true" aria-describedby="feeling-status feeling-chars"/>
+        <button class="btn btn-purple" onclick="submitFeeling()">Add to cloud</button>
+      </div>
+      <div class="char-count" id="feeling-chars" aria-live="polite">0 / 40</div>
+      <div class="status" id="feeling-status" role="status" aria-live="polite"></div>
+    </div>
+    <div class="section">
+      <div class="section-title">Our class word cloud</div>
+      <div class="counts" id="cloud-counts"></div>
+      <div id="cloud-canvas" aria-label="Word cloud of student feelings" role="group">
+        <span class="empty">Words will appear here as students submit</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="panel-qa" class="panel" role="tabpanel" aria-labelledby="tab-qa">
+    <div class="section">
+      <div class="section-title">Ask an anonymous question</div>
+      <p class="subtitle">No names attached. Submit as many questions as you'd like. All questions are visible to the class in real time.</p>
+      <label for="question-input">What would you like to know?</label>
+      <textarea id="question-input" maxlength="400" placeholder="Type your question here..." aria-required="true" aria-describedby="q-status q-chars"></textarea>
+      <div class="char-count" id="q-chars" aria-live="polite">0 / 400</div>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px">
+        <button class="btn btn-teal" onclick="submitQuestion()">Submit question</button>
+      </div>
+      <div class="status" id="q-status" role="status" aria-live="polite"></div>
+    </div>
+    <div class="section">
+      <div class="section-title">Questions from the class</div>
+      <div class="counts" id="q-counts"></div>
+      <div class="q-list" id="q-list" aria-live="polite" aria-label="Student questions">
+        <p class="empty">No questions yet — be the first!</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="panel-checkin" class="panel" role="tabpanel" aria-labelledby="tab-checkin">
+
+    <div class="section">
+      <h2 id="ci-checkin-h" tabindex="-1">Student check-in</h2>
+      <p class="ci-note"><strong>This tab is not anonymous.</strong> Only your selfie, preferred name, and course are shown to the class. Your legal name, school email, and phone number are seen by faculty only.</p>
+      <p>Fields marked <span class="ci-req" aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.</p>
+
+      <div id="ci-status" class="ci-status" role="status" aria-live="polite"></div>
+
+      <div id="ci-error-summary" class="ci-summary" role="alert" tabindex="-1" hidden>
+        <h3>Please fix the following</h3>
+        <ul id="ci-error-list"></ul>
+      </div>
+
+      <form id="ci-form" novalidate>
+        <div class="ci-grid">
+          <div class="ci-field">
+            <label for="ci-legalFirst">Legal first name <span class="ci-req" aria-hidden="true">*</span></label>
+            <input type="text" id="ci-legalFirst" autocomplete="given-name" maxlength="60" required aria-required="true" aria-describedby="ci-legalFirst-err">
+            <p class="ci-error" id="ci-legalFirst-err"></p>
+          </div>
+          <div class="ci-field">
+            <label for="ci-legalLast">Legal last name <span class="ci-req" aria-hidden="true">*</span></label>
+            <input type="text" id="ci-legalLast" autocomplete="family-name" maxlength="60" required aria-required="true" aria-describedby="ci-legalLast-err">
+            <p class="ci-error" id="ci-legalLast-err"></p>
+          </div>
+          <div class="ci-field">
+            <label for="ci-preferred">Preferred name <span class="ci-req" aria-hidden="true">*</span>
+              <span class="ci-hint" id="ci-preferred-hint">The name you want shown on the board and used by faculty.</span></label>
+            <input type="text" id="ci-preferred" autocomplete="nickname" maxlength="40" required aria-required="true" aria-describedby="ci-preferred-hint ci-preferred-err">
+            <p class="ci-error" id="ci-preferred-err"></p>
+          </div>
+          <div class="ci-field">
+            <label for="ci-email">School email <span class="ci-req" aria-hidden="true">*</span></label>
+            <input type="email" id="ci-email" autocomplete="email" maxlength="120" required aria-required="true" aria-describedby="ci-email-err">
+            <p class="ci-error" id="ci-email-err"></p>
+          </div>
+          <div class="ci-field">
+            <label for="ci-phone">Phone number <span class="ci-req" aria-hidden="true">*</span>
+              <span class="ci-hint" id="ci-phone-hint">10 digits, for example 910-555-0123.</span></label>
+            <input type="tel" id="ci-phone" autocomplete="tel" inputmode="tel" maxlength="20" required aria-required="true" aria-describedby="ci-phone-hint ci-phone-err">
+            <p class="ci-error" id="ci-phone-err"></p>
+          </div>
+        </div>
+
+        <fieldset aria-describedby="ci-course-err">
+          <legend>Which course are you entering? <span class="ci-req" aria-hidden="true">*</span></legend>
+          <label class="ci-choice"><input type="radio" name="ci-course" id="ci-course-111" value="NUR 111"> NUR 111</label>
+          <label class="ci-choice"><input type="radio" name="ci-course" id="ci-course-112" value="NUR 112"> NUR 112</label>
+          <p class="ci-error" id="ci-course-err"></p>
+        </fieldset>
+
+        <fieldset aria-describedby="ci-selfie-hint ci-selfie-err">
+          <legend>Your selfie <span class="ci-req" aria-hidden="true">*</span></legend>
+          <p class="ci-hint" id="ci-selfie-hint">Use a clear, face-forward photo in good light. Your selfie will be shown to the class.</p>
+          <div class="ci-camera">
+            <div class="ci-preview" id="ci-preview">No photo yet</div>
+            <div>
+              <div class="ci-row">
+                <button type="button" id="ci-btn-camera" class="ci-btn ci-secondary">Open camera</button>
+                <button type="button" id="ci-btn-snap" class="ci-btn" hidden>Take photo</button>
+                <button type="button" id="ci-btn-retake" class="ci-btn ci-secondary" hidden>Retake photo</button>
+              </div>
+              <div class="ci-row">
+                <button type="button" id="ci-btn-file" class="ci-btn ci-secondary">Take or choose a photo from my device</button>
+                <input type="file" id="ci-file" accept="image/*" capture="user" hidden>
+              </div>
+              <p class="ci-hint" id="ci-camera-help">If the camera does not open, allow camera access in your browser, or use the device photo option.</p>
+            </div>
+          </div>
+          <p class="ci-error" id="ci-selfie-err"></p>
+        </fieldset>
+
+        <div class="ci-field">
+          <label class="ci-choice" style="align-items:flex-start">
+            <input type="checkbox" id="ci-consent" required aria-required="true" aria-describedby="ci-consent-err" style="margin-top:.2rem">
+            <span>I agree that my selfie, preferred name, and course will be displayed publicly on this board for my class to see. <span class="ci-req" aria-hidden="true">*</span></span>
+          </label>
+          <p class="ci-error" id="ci-consent-err"></p>
+        </div>
+
+        <button type="submit" id="ci-btn-submit" class="ci-btn">Check in</button>
+      </form>
+    </div>
+
+    <div class="section">
+      <h2 id="ci-board-h">Meet your classmates</h2>
+      <p>New check-ins appear here automatically.</p>
+      <div id="ci-board"></div>
+    </div>
+
+    <div class="section" id="ci-faculty">
+      <h2 id="ci-fac-h">Faculty roster</h2>
+      <div id="ci-fac-signedout">
+        <p>Faculty can sign in to view contact information and download the class roster.</p>
+        <button type="button" id="ci-btn-signin" class="ci-btn">Faculty sign in with Google</button>
+      </div>
+      <div id="ci-fac-signedin" hidden>
+        <p id="ci-fac-who"></p>
+        <div class="ci-row">
+          <button type="button" id="ci-btn-xlsx" class="ci-btn">Download Excel roster (with selfies)</button>
+          <button type="button" id="ci-btn-csv" class="ci-btn ci-secondary">Download CSV (no photos)</button>
+          <button type="button" id="ci-btn-clear" class="ci-btn ci-danger">Clear all check-ins</button>
+          <button type="button" id="ci-btn-signout" class="ci-btn ci-secondary">Sign out</button>
+        </div>
+        <p id="ci-fac-msg" class="ci-error" role="status"></p>
+        <div class="ci-table-wrap" id="ci-roster"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="instructor-section" role="region" aria-label="Instructor controls">
+    <div class="instructor-header">
+      <span class="instructor-title">Instructor controls</span>
+      <span id="unlocked-badge" style="display:none" class="unlock-badge">
+        Signed in
+        <button class="lock-link" onclick="signOutInstructor()" aria-label="Sign out of instructor controls">Sign out</button>
+      </span>
+    </div>
+    <div id="signin-area">
+      <p class="pin-setup">Faculty sign in with Google to use these controls.</p>
+      <button class="btn btn-purple btn-sm" onclick="signInInstructor()">Faculty sign in with Google</button>
+      <div class="pin-error" id="instr-error" role="alert" aria-live="polite"></div>
+    </div>
+    <div class="unlocked-controls" id="unlocked-controls">
+      <p class="pin-setup" id="instructor-who"></p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <button class="btn btn-danger" onclick="confirmClear()">Clear all responses</button>
+      </div>
+      <div class="confirm-bar" id="confirm-bar" role="alert">
+        <span class="confirm-text">This will permanently delete all words and questions for everyone. Are you sure?</span>
+        <button class="btn btn-danger" onclick="clearAll()" style="white-space:nowrap">Yes, clear all</button>
+        <button class="btn btn-outline" onclick="cancelClear()">Cancel</button>
+      </div>
+      <div class="pin-error" id="instr-error-2" role="alert" aria-live="polite"></div>
+    </div>
+  </div>
+
+</div>
+
+<dialog id="ci-confirm" aria-labelledby="ci-confirm-h" aria-describedby="ci-confirm-p">
+  <h2 id="ci-confirm-h">Please confirm</h2>
+  <p id="ci-confirm-p"></p>
+  <div class="ci-row">
+    <button type="button" id="ci-confirm-yes" class="ci-btn ci-danger">Yes, delete</button>
+    <button type="button" id="ci-confirm-no" class="ci-btn ci-secondary">Cancel</button>
+  </div>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, deleteDoc, getDocs, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD36GaAMl08xir1EO8OyI0uGWyZXNn_p9A",
+  authDomain: "evaluations-3ea50.firebaseapp.com",
+  projectId: "evaluations-3ea50",
+  storageBucket: "evaluations-3ea50.firebasestorage.app",
+  messagingSenderId: "861650010957",
+  appId: "1:861650010957:web:cec4a828be829359f82d04",
+  measurementId: "G-W8DH8GPM5N"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+const WORD_COLORS=[
+  {bg:'#EEEDFE',text:'#3C3489'},{bg:'#E1F5EE',text:'#085041'},
+  {bg:'#FBEAF0',text:'#72243E'},{bg:'#FAEEDA',text:'#633806'},
+  {bg:'#EAF3DE',text:'#27500A'},{bg:'#E6F1FB',text:'#0C447C'},
+  {bg:'#FAECE7',text:'#712B13'},{bg:'#FCEBEB',text:'#791F1F'},
+];
+const Q_COLORS=[
+  {bg:'#EEEDFE',badge:'#534AB7',bt:'#fff'},{bg:'#E1F5EE',badge:'#0F6E56',bt:'#fff'},
+  {bg:'#E6F1FB',badge:'#1B5FA8',bt:'#fff'},{bg:'#FBEAF0',badge:'#A8325A',bt:'#fff'},
+  {bg:'#EAF3DE',badge:'#3F6B14',bt:'#fff'},{bg:'#FAEEDA',badge:'#8A5200',bt:'#fff'},
+];
+const SIZES=[36,30,24,20,16,13];
+
+let feelings={};
+let questions=[];
+let connected=false;
+
+function setConnection(state){
+  const bar=document.getElementById('connection-bar');
+  const dot=document.getElementById('conn-dot');
+  const text=document.getElementById('conn-text');
+  bar.className='connection-bar '+state;
+  dot.className='dot '+state;
+  if(state==='ok'){text.textContent='Connected — responses update live for everyone';}
+  else if(state==='err'){text.textContent='Connection error — check your internet connection';}
+  else{text.textContent='Connecting to class board...';}
+  connected=(state==='ok');
+}
+
+function setInstrError(msg){
+  const el=document.getElementById('instr-error');
+  const el2=document.getElementById('instr-error-2');
+  el.textContent=msg;el2.textContent=msg;
+  if(msg)setTimeout(()=>{if(el.textContent===msg){el.textContent='';el2.textContent='';}},6000);
+}
+
+window.signInInstructor=async function(){
+  try{await signInWithPopup(auth,new GoogleAuthProvider());setInstrError('');}
+  catch(e){setInstrError('Sign-in was cancelled or blocked. Allow pop-ups and try again.');}
+}
+
+window.signOutInstructor=function(){
+  document.getElementById('confirm-bar').classList.remove('show');
+  signOut(auth);
+}
+
+function applyAuth(user){
+  const signedIn=!!user;
+  document.getElementById('signin-area').style.display=signedIn?'none':'block';
+  document.getElementById('unlocked-badge').style.display=signedIn?'inline-flex':'none';
+  const ctrl=document.getElementById('unlocked-controls');
+  if(signedIn)ctrl.classList.add('show');else ctrl.classList.remove('show');
+  document.getElementById('instructor-who').textContent=signedIn?('Signed in as '+user.email):'';
+  if(!signedIn)document.getElementById('confirm-bar').classList.remove('show');
+}
+
+window.switchTab=function(t){
+  document.querySelectorAll('.tab').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-selected','false')});
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.getElementById('tab-'+t).setAttribute('aria-selected','true');
+  document.getElementById('panel-'+t).classList.add('active');
+}
+
+document.getElementById('feeling-input').addEventListener('input',function(){document.getElementById('feeling-chars').textContent=this.value.length+' / 40';});
+document.getElementById('question-input').addEventListener('input',function(){document.getElementById('q-chars').textContent=this.value.length+' / 400';});
+document.getElementById('feeling-input').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();submitFeeling();}});
+
+window.submitFeeling=async function(){
+  const val=document.getElementById('feeling-input').value.trim();
+  if(!val){setStatus('feeling-status','Please enter a word or phrase.','err');return;}
+  if(!connected){setStatus('feeling-status','Not connected yet — please wait a moment.','err');return;}
+  const key=val.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim();
+  if(!key){setStatus('feeling-status','Please enter a valid word or phrase.','err');return;}
+  try{
+    const ref=doc(db,'firstday_feelings',key);
+    await setDoc(ref,{word:val,count:increment(1)},{merge:true});
+    document.getElementById('feeling-input').value='';
+    document.getElementById('feeling-chars').textContent='0 / 40';
+    setStatus('feeling-status','Added! Feel free to share another.','ok');
+    document.getElementById('feeling-input').focus();
+  }catch(e){setStatus('feeling-status','Could not submit — check your connection.','err');}
+}
+
+window.submitQuestion=async function(){
+  const val=document.getElementById('question-input').value.trim();
+  if(!val){setStatus('q-status','Please type a question first.','err');return;}
+  if(!connected){setStatus('q-status','Not connected yet — please wait a moment.','err');return;}
+  try{
+    await addDoc(collection(db,'firstday_questions'),{text:val,ts:serverTimestamp()});
+    document.getElementById('question-input').value='';
+    document.getElementById('q-chars').textContent='0 / 400';
+    setStatus('q-status','Submitted! Ask another if you have more.','ok');
+    document.getElementById('question-input').focus();
+  }catch(e){setStatus('q-status','Could not submit — check your connection.','err');}
+}
+
+window.confirmClear=function(){document.getElementById('confirm-bar').classList.add('show');}
+window.cancelClear=function(){document.getElementById('confirm-bar').classList.remove('show');}
+
+window.clearAll=async function(){
+  try{
+    const fSnap=await getDocs(collection(db,'firstday_feelings'));
+    for(const d of fSnap.docs){await deleteDoc(d.ref);}
+    const qSnap=await getDocs(collection(db,'firstday_questions'));
+    for(const d of qSnap.docs){await deleteDoc(d.ref);}
+    document.getElementById('confirm-bar').classList.remove('show');
+  }catch(e){
+    document.getElementById('confirm-bar').classList.remove('show');
+    setInstrError(e&&e.code==='permission-denied'?'This Google account is not authorized to clear responses. Sign out and use your faculty account.':'Could not clear — check your connection.');
+  }
+}
+
+function renderCloud(data){
+  const canvas=document.getElementById('cloud-canvas');
+  if(!data||!data.length){
+    canvas.setAttribute('role','group');
+    canvas.innerHTML='<span class="empty">Words will appear here as students submit</span>';
+    document.getElementById('cloud-counts').textContent='';
+    return;
+  }
+  const sorted=[...data].sort((a,b)=>b.count-a.count);
+  const total=sorted.reduce((s,d)=>s+d.count,0);
+  const maxCount=sorted[0].count;
+  document.getElementById('cloud-counts').textContent=sorted.length+' unique word'+(sorted.length===1?'':'s')+', '+total+' total submission'+(total===1?'':'s');
+  canvas.innerHTML='';
+  canvas.setAttribute('role','list');
+  sorted.forEach((item,i)=>{
+    const ratio=maxCount>1?(item.count-1)/(maxCount-1):1;
+    const sIdx=Math.round((1-ratio)*(SIZES.length-1));
+    const col=WORD_COLORS[i%WORD_COLORS.length];
+    const span=document.createElement('span');
+    span.className='cloud-word';
+    span.setAttribute('role','listitem');
+    span.textContent=item.word;
+    span.style.cssText=`font-size:${SIZES[sIdx]}px;background:${col.bg};color:${col.text};font-weight:${item.count===maxCount?500:400};`;
+    span.setAttribute('aria-label',item.word+', '+item.count+(item.count===1?' response':' responses'));
+    canvas.appendChild(span);
+  });
+}
+
+function renderQuestions(data){
+  const list=document.getElementById('q-list');
+  if(!data||!data.length){
+    list.innerHTML='<p class="empty">No questions yet — be the first!</p>';
+    document.getElementById('q-counts').textContent='';
+    return;
+  }
+  const sorted=[...data].sort((a,b)=>{
+    if(!a.ts||!b.ts)return 0;
+    return a.ts.seconds-b.ts.seconds;
+  });
+  document.getElementById('q-counts').textContent=sorted.length+' question'+(sorted.length===1?'':'s')+' submitted';
+  list.innerHTML='';
+  [...sorted].reverse().forEach((q,i)=>{
+    const num=sorted.length-i;
+    const col=Q_COLORS[(num-1)%Q_COLORS.length];
+    const card=document.createElement('div');
+    card.className='q-card';
+    card.setAttribute('tabindex','0');
+    card.style.background=col.bg;
+    card.innerHTML=`<span class="q-num" style="background:${col.badge};color:${col.bt}">Q${num}</span><div style="font-size:14px;color:#1a1a1a;line-height:1.6">${escHtml(q.text)}</div>`;
+    list.appendChild(card);
+  });
+}
+
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function setStatus(id,msg,type){
+  const el=document.getElementById(id);
+  el.textContent=msg;el.className='status'+(type?' '+type:'');
+  if(msg)setTimeout(()=>{if(el.textContent===msg){el.textContent='';el.className='status';}},4000);
+}
+
+onSnapshot(collection(db,'firstday_feelings'),(snap)=>{
+  setConnection('ok');
+  const data=snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderCloud(data);
+},(err)=>{setConnection('err');});
+
+onSnapshot(collection(db,'firstday_questions'),(snap)=>{
+  const data=snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderQuestions(data);
+},(err)=>{});
+
+onAuthStateChanged(auth,(user)=>applyAuth(user));
+</script>
+<script type="module">
+/* Student check-in tab. Runs after the original board script and reuses its Firebase app. */
+import { getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, doc, writeBatch, onSnapshot, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const app = getApp();
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+const COURSES = ["NUR 111", "NUR 112"];
+const PUBLIC_COL = "fd_students_public";
+const PRIVATE_COL = "fd_students_private";
+const $ = (k) => document.getElementById("ci-" + k);
+
+function say(msg, kind) {
+  const s = $("status");
+  s.textContent = msg || "";
+  s.className = "ci-status" + (kind ? " " + kind : "");
+}
+
+/* ---------- tab behavior: stop camera, hide PIN-based instructor controls on this tab ---------- */
+const originalSwitchTab = window.switchTab;
+window.switchTab = function (t) {
+  if (t !== "checkin") stopCamera();
+  const inst = document.querySelector(".instructor-section");
+  if (inst) inst.style.display = (t === "checkin") ? "none" : "";
+  originalSwitchTab(t);
+};
+
+/* ---------- selfie capture ---------- */
+let stream = null;
+let photoData = "";
+const preview = $("preview");
+
+function resetPhotoUI() {
+  photoData = "";
+  preview.textContent = "No photo yet";
+  $("btn-snap").hidden = true;
+  $("btn-retake").hidden = true;
+  $("btn-camera").hidden = false;
+}
+
+function showPhoto(dataUrl) {
+  photoData = dataUrl;
+  preview.replaceChildren();
+  const img = document.createElement("img");
+  img.src = dataUrl;
+  img.alt = "Your selfie preview";
+  preview.appendChild(img);
+  $("btn-snap").hidden = true;
+  $("btn-camera").hidden = true;
+  $("btn-retake").hidden = false;
+  $("selfie-err").textContent = "";
+  say("Photo ready. You can retake it if you like.", "ok");
+}
+
+function stopCamera() {
+  if (stream) {
+    stream.getTracks().forEach(t => t.stop());
+    stream = null;
+    if (!photoData) resetPhotoUI();
+  }
+}
+
+function squareToJpeg(source, w, h, mirror) {
+  const size = 360;
+  const side = Math.min(w, h);
+  const sx = (w - side) / 2, sy = (h - side) / 2;
+  const c = document.createElement("canvas");
+  c.width = size; c.height = size;
+  const ctx = c.getContext("2d");
+  if (mirror) { ctx.translate(size, 0); ctx.scale(-1, 1); }
+  ctx.drawImage(source, sx, sy, side, side, 0, 0, size, size);
+  return c.toDataURL("image/jpeg", 0.78);
+}
+
+$("btn-camera").addEventListener("click", async () => {
+  $("selfie-err").textContent = "";
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    $("selfie-err").textContent = "This browser cannot open the camera. Please use the device photo option instead.";
+    return;
+  }
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 720 }, height: { ideal: 720 } }, audio: false });
+    const v = document.createElement("video");
+    v.setAttribute("playsinline", ""); v.muted = true; v.autoplay = true;
+    v.setAttribute("aria-label", "Live camera preview");
+    v.srcObject = stream;
+    preview.replaceChildren(v);
+    $("btn-camera").hidden = true;
+    $("btn-snap").hidden = false;
+    $("btn-snap").focus();
+    say("Camera is on. Select Take photo when you are ready.");
+  } catch (e) {
+    $("selfie-err").textContent = "Camera could not be opened. Allow camera access in your browser, or use the device photo option.";
+  }
+});
+
+$("btn-snap").addEventListener("click", () => {
+  const v = preview.querySelector("video");
+  if (!v || !v.videoWidth) { $("selfie-err").textContent = "Camera is not ready yet. Try again in a moment."; return; }
+  const data = squareToJpeg(v, v.videoWidth, v.videoHeight, true);
+  stopCamera();
+  showPhoto(data);
+  $("btn-retake").focus();
+});
+
+$("btn-retake").addEventListener("click", () => {
+  resetPhotoUI();
+  $("btn-camera").focus();
+  say("");
+});
+
+$("btn-file").addEventListener("click", () => $("file").click());
+
+$("file").addEventListener("change", async (e) => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  try {
+    let bmp = null;
+    if (window.createImageBitmap) {
+      try { bmp = await createImageBitmap(file, { imageOrientation: "from-image" }); }
+      catch (_) { bmp = null; }
+    }
+    if (!bmp) {
+      bmp = await new Promise((res, rej) => {
+        const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = URL.createObjectURL(file);
+      });
+    }
+    const w = bmp.width || bmp.naturalWidth, h = bmp.height || bmp.naturalHeight;
+    stopCamera();
+    showPhoto(squareToJpeg(bmp, w, h, false));
+    $("btn-retake").focus();
+  } catch (err) {
+    $("selfie-err").textContent = "That file could not be read as a photo. Please try another.";
+  }
+  e.target.value = "";
+});
+
+/* ---------- phone formatting ---------- */
+function formatPhone(s) {
+  let d = (s || "").replace(/\D/g, "");
+  if (d.length === 11 && d[0] === "1") d = d.slice(1);
+  if (d.length !== 10) return null;
+  return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
+}
+
+/* ---------- validation ---------- */
+const emailRe = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+function setErr(key, msg) {
+  $(key + "-err").textContent = msg || "";
+  const input = $(key);
+  if (input) { if (msg) input.setAttribute("aria-invalid", "true"); else input.removeAttribute("aria-invalid"); }
+}
+
+function validate() {
+  const problems = [];
+  const add = (key, msg) => { setErr(key, msg); problems.push({ msg, focusKey: key }); };
+  ["legalFirst", "legalLast", "preferred", "email", "phone", "consent"].forEach(k => setErr(k, ""));
+  $("course-err").textContent = ""; $("selfie-err").textContent = "";
+
+  if (!$("legalFirst").value.trim()) add("legalFirst", "Enter your legal first name.");
+  if (!$("legalLast").value.trim()) add("legalLast", "Enter your legal last name.");
+  if (!$("preferred").value.trim()) add("preferred", "Enter the name you prefer to be called.");
+  const em = $("email").value.trim();
+  if (!em) add("email", "Enter your school email.");
+  else if (!emailRe.test(em)) add("email", "Enter a valid email address, such as name@school.edu.");
+  const ph = $("phone").value.trim();
+  if (!ph) add("phone", "Enter your phone number.");
+  else if (!formatPhone(ph)) add("phone", "Enter a 10-digit phone number, such as 910-555-0123.");
+  if (!document.querySelector('input[name="ci-course"]:checked')) {
+    $("course-err").textContent = "Select NUR 111 or NUR 112.";
+    problems.push({ msg: "Select NUR 111 or NUR 112.", focusKey: "course-111" });
+  }
+  if (!photoData) {
+    $("selfie-err").textContent = "Take or choose a selfie.";
+    problems.push({ msg: "Take or choose a selfie.", focusKey: "btn-camera" });
+  }
+  if (!$("consent").checked) add("consent", "Check the box to agree to the public display.");
+  return problems;
+}
+
+function showSummary(problems) {
+  const box = $("error-summary"), list = $("error-list");
+  list.replaceChildren();
+  problems.forEach(p => {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = "#ci-" + p.focusKey; a.textContent = p.msg;
+    a.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      let t = $(p.focusKey);
+      if (t && t.hidden) t = $("btn-retake");
+      if (t) t.focus();
+    });
+    li.appendChild(a); list.appendChild(li);
+  });
+  box.hidden = false;
+  box.focus();
+}
+
+/* ---------- submit ---------- */
+$("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  $("error-summary").hidden = true;
+  const problems = validate();
+  if (problems.length) { showSummary(problems); return; }
+
+  const btn = $("btn-submit");
+  btn.disabled = true; btn.textContent = "Checking in...";
+  const preferred = $("preferred").value.trim();
+  const course = document.querySelector('input[name="ci-course"]:checked').value;
+  try {
+    const pubRef = doc(collection(db, PUBLIC_COL));
+    const privRef = doc(db, PRIVATE_COL, pubRef.id);
+    const batch = writeBatch(db);
+    batch.set(pubRef, { preferredName: preferred, course, photo: photoData, createdAt: serverTimestamp() });
+    batch.set(privRef, {
+      legalFirst: $("legalFirst").value.trim(),
+      legalLast: $("legalLast").value.trim(),
+      preferredName: preferred,
+      email: $("email").value.trim().toLowerCase(),
+      phone: formatPhone($("phone").value),
+      course,
+      createdAt: serverTimestamp()
+    });
+    await batch.commit();
+    $("form").reset();
+    resetPhotoUI();
+    say(`You're checked in, ${preferred}! Find yourself on the board below.`, "ok");
+    $("checkin-h").focus();
+    $("checkin-h").scrollIntoView();
+  } catch (err) {
+    console.error(err);
+    say("Sorry, check-in did not go through. Please check your connection and try again, or ask a faculty member for help.", "bad");
+    $("checkin-h").focus();
+  } finally {
+    btn.disabled = false; btn.textContent = "Check in";
+  }
+});
+
+/* ---------- public board (real time) ---------- */
+let publicRows = [];
+const byPreferred = (a, b) => (a.preferredName || "").localeCompare(b.preferredName || "", undefined, { sensitivity: "base" });
+
+function renderBoard() {
+  const root = $("board");
+  root.replaceChildren();
+  COURSES.forEach(course => {
+    const rows = publicRows.filter(r => r.course === course).sort(byPreferred);
+    const head = document.createElement("div"); head.className = "ci-group-head";
+    const h = document.createElement("h3"); h.textContent = course;
+    const c = document.createElement("span"); c.className = "ci-count"; c.textContent = `(${rows.length} checked in)`;
+    head.append(h, c); root.appendChild(head);
+    if (!rows.length) {
+      const p = document.createElement("p"); p.className = "ci-empty"; p.textContent = "No one has checked in yet."; root.appendChild(p);
+      return;
+    }
+    const ul = document.createElement("ul"); ul.className = "ci-gallery";
+    ul.setAttribute("aria-label", `${course} students`);
+    rows.forEach(r => {
+      const li = document.createElement("li");
+      const img = document.createElement("img");
+      img.src = r.photo; img.alt = `Selfie of ${r.preferredName}`; img.loading = "lazy";
+      const nm = document.createElement("span"); nm.className = "ci-nm"; nm.textContent = r.preferredName;
+      li.append(img, nm); ul.appendChild(li);
+    });
+    root.appendChild(ul);
+  });
+}
+
+onSnapshot(collection(db, PUBLIC_COL), (snap) => {
+  publicRows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderBoard();
+  renderRoster();
+}, (err) => { console.error(err); say("The check-in board could not load. Check the Firebase rules.", "bad"); });
+renderBoard();
+
+/* ---------- faculty ---------- */
+let privateRows = [];
+let unsubPrivate = null;
+
+$("btn-signin").addEventListener("click", async () => {
+  try { await signInWithPopup(auth, new GoogleAuthProvider()); }
+  catch (e) { say("Sign-in was cancelled or blocked. Allow pop-ups and try again.", "bad"); }
+});
+$("btn-signout").addEventListener("click", () => signOut(auth));
+
+onAuthStateChanged(auth, (user) => {
+  if (unsubPrivate) { unsubPrivate(); unsubPrivate = null; }
+  privateRows = [];
+  if (!user) {
+    $("fac-signedout").hidden = false; $("fac-signedin").hidden = true; return;
+  }
+  $("fac-signedout").hidden = true; $("fac-signedin").hidden = false;
+  $("fac-who").textContent = "Signed in as " + user.email;
+  $("fac-msg").textContent = "";
+  unsubPrivate = onSnapshot(collection(db, PRIVATE_COL), (snap) => {
+    privateRows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    $("fac-msg").textContent = "";
+    renderRoster();
+  }, () => {
+    privateRows = []; renderRoster();
+    $("fac-msg").textContent = "This account is not authorized to view contact information. Sign out and use an authorized faculty account.";
+  });
+});
+
+function sortedRoster() {
+  const photos = new Map(publicRows.map(r => [r.id, r.photo]));
+  const rows = privateRows.map(r => ({ ...r, photo: photos.get(r.id) || "" }));
+  rows.sort((a, b) =>
+    COURSES.indexOf(a.course) - COURSES.indexOf(b.course) ||
+    (a.legalLast || "").localeCompare(b.legalLast || "", undefined, { sensitivity: "base" }) ||
+    (a.legalFirst || "").localeCompare(b.legalFirst || "", undefined, { sensitivity: "base" }));
+  return rows;
+}
+
+function renderRoster() {
+  const wrap = $("roster");
+  wrap.replaceChildren();
+  const rows = sortedRoster();
+  const table = document.createElement("table");
+  const cap = document.createElement("caption");
+  cap.textContent = `Class roster, grouped by course and alphabetized by legal last name (${rows.length} students)`;
+  table.appendChild(cap);
+  const thead = document.createElement("thead"); const hr = document.createElement("tr");
+  ["Selfie", "Legal last name", "Legal first name", "Preferred name", "School email", "Phone", "Action"].forEach(t => {
+    const th = document.createElement("th"); th.scope = "col"; th.textContent = t; hr.appendChild(th);
+  });
+  thead.appendChild(hr); table.appendChild(thead);
+  const tb = document.createElement("tbody");
+  COURSES.forEach(course => {
+    const group = rows.filter(r => r.course === course);
+    const cr = document.createElement("tr"); cr.className = "ci-course-row";
+    const th = document.createElement("th"); th.colSpan = 7; th.scope = "colgroup";
+    th.textContent = `${course} (${group.length})`; cr.appendChild(th); tb.appendChild(cr);
+    group.forEach(r => {
+      const tr = document.createElement("tr");
+      const tdImg = document.createElement("td");
+      if (r.photo) { const i = document.createElement("img"); i.src = r.photo; i.alt = `Selfie of ${r.preferredName}`; tdImg.appendChild(i); }
+      else tdImg.textContent = "No photo";
+      tr.appendChild(tdImg);
+      [r.legalLast, r.legalFirst, r.preferredName, r.email, r.phone].forEach(v => {
+        const td = document.createElement("td"); td.textContent = v || ""; tr.appendChild(td);
+      });
+      const tdA = document.createElement("td");
+      const del = document.createElement("button"); del.type = "button"; del.className = "ci-btn ci-danger";
+      del.textContent = "Delete"; del.setAttribute("aria-label", `Delete check-in for ${r.legalFirst} ${r.legalLast}`);
+      del.addEventListener("click", () => confirmDialog(`Delete the check-in for ${r.legalFirst} ${r.legalLast}? This cannot be undone.`, () => deleteStudents([r.id]), del));
+      tdA.appendChild(del); tr.appendChild(tdA); tb.appendChild(tr);
+    });
+  });
+  table.appendChild(tb); wrap.appendChild(table);
+}
+
+/* ---------- delete / clear ---------- */
+const dlg = $("confirm");
+let confirmAction = null, confirmReturn = null;
+function confirmDialog(message, action, returnFocusEl) {
+  $("confirm-p").textContent = message; confirmAction = action; confirmReturn = returnFocusEl;
+  dlg.showModal(); $("confirm-no").focus();
+}
+$("confirm-no").addEventListener("click", () => dlg.close());
+$("confirm-yes").addEventListener("click", async () => { dlg.close(); if (confirmAction) await confirmAction(); });
+dlg.addEventListener("close", () => {
+  if (confirmReturn && document.contains(confirmReturn)) confirmReturn.focus(); else $("btn-clear").focus();
+});
+
+async function deleteStudents(ids) {
+  try {
+    for (let i = 0; i < ids.length; i += 200) {
+      const batch = writeBatch(db);
+      ids.slice(i, i + 200).forEach(id => { batch.delete(doc(db, PUBLIC_COL, id)); batch.delete(doc(db, PRIVATE_COL, id)); });
+      await batch.commit();
+    }
+    $("fac-msg").textContent = "";
+    say("Deleted.", "ok");
+  } catch (e) { console.error(e); say("Delete failed. Confirm you are signed in with an authorized account.", "bad"); }
+}
+$("btn-clear").addEventListener("click", () =>
+  confirmDialog("This permanently deletes ALL check-ins, selfies, and contact information. Download the roster first. Are you sure?",
+    () => deleteStudents(sortedRoster().map(r => r.id)), $("btn-clear")));
+
+/* ---------- downloads ---------- */
+const stamp = () => new Date().toISOString().slice(0, 10);
+function saveBlob(blob, name) {
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
+$("btn-csv").addEventListener("click", () => {
+  const rows = sortedRoster();
+  const q = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const lines = [["Course", "Legal last name", "Legal first name", "Preferred name", "School email", "Phone"].map(q).join(",")];
+  rows.forEach(r => lines.push([r.course, r.legalLast, r.legalFirst, r.preferredName, r.email, r.phone].map(q).join(",")));
+  saveBlob(new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" }), `student_roster_${stamp()}.csv`);
+  say("CSV downloaded.", "ok");
+});
+
+$("btn-xlsx").addEventListener("click", async () => {
+  if (!window.ExcelJS) { say("Excel library did not load. Check your connection and refresh.", "bad"); return; }
+  const rows = sortedRoster();
+  const wb = new ExcelJS.Workbook();
+  const ws = wb.addWorksheet("Roster", { views: [{ state: "frozen", ySplit: 1 }] });
+  ws.columns = [
+    { header: "Selfie", key: "photo", width: 16 },
+    { header: "Legal last name", key: "last", width: 20 },
+    { header: "Legal first name", key: "first", width: 20 },
+    { header: "Preferred name", key: "pref", width: 20 },
+    { header: "School email", key: "email", width: 34 },
+    { header: "Phone", key: "phone", width: 16 },
+    { header: "Course", key: "course", width: 10 }
+  ];
+  const head = ws.getRow(1);
+  head.font = { bold: true, color: { argb: "FFFFFFFF" } };
+  head.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF372E86" } };
+  head.alignment = { vertical: "middle" }; head.height = 24;
+
+  COURSES.forEach(course => {
+    const group = rows.filter(r => r.course === course);
+    const banner = ws.addRow([`${course} (${group.length} students)`]);
+    ws.mergeCells(banner.number, 1, banner.number, 7);
+    banner.font = { bold: true, size: 13 };
+    banner.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF1E3D3" } };
+    banner.height = 22;
+    group.forEach(r => {
+      const row = ws.addRow({ photo: "", last: r.legalLast, first: r.legalFirst, pref: r.preferredName, email: r.email, phone: r.phone, course: r.course });
+      row.height = 72; row.alignment = { vertical: "middle" };
+      if (r.photo) {
+        const id = wb.addImage({ base64: r.photo, extension: "jpeg" });
+        ws.addImage(id, { tl: { col: 0.1, row: row.number - 1 + 0.06 }, ext: { width: 86, height: 86 } });
+      }
+    });
+  });
+  const buf = await wb.xlsx.writeBuffer();
+  saveBlob(new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), `student_roster_${stamp()}.xlsx`);
+  say("Excel roster downloaded.", "ok");
+});
+
+window.addEventListener("beforeunload", () => { if (stream) stream.getTracks().forEach(t => t.stop()); });
+</script>
+</body>
+</html>
