@@ -533,7 +533,7 @@ function setInstrError(msg){
   const el=document.getElementById('instr-error');
   const el2=document.getElementById('instr-error-2');
   el.textContent=msg;el2.textContent=msg;
-  if(msg)setTimeout(()=>{if(el.textContent===msg){el.textContent='';el2.textContent='';}},6000);
+  if(msg)setTimeout(()=>{if(el.textContent===msg){el.textContent='';el2.textContent='';}},15000);
 }
 
 async function signInInstructor(){
@@ -560,113 +560,23 @@ function confirmClear(){document.getElementById('confirm-bar').classList.add('sh
 function cancelClear(){document.getElementById('confirm-bar').classList.remove('show');}
 
 async function clearAll(){
+  const bar=document.getElementById('confirm-bar');
   try{
+    let n=0;
     for(const col of Object.values(COLLECTIONS)){
       if(col===COLLECTIONS.settings)continue;
       const snap=await getDocs(collection(db,col));
-      for(const d of snap.docs)await deleteDoc(d.ref);
+      for(const d of snap.docs){await deleteDoc(d.ref);n++;}
     }
-    document.getElementById('confirm-bar').classList.remove('show');
+    bar.classList.remove('show');
+    setInstrError(n?('Cleared '+n+' responses.'):'There were no responses to clear.');
   }catch(e){
-    document.getElementById('confirm-bar').classList.remove('show');
-    setInstrError(e&&e.code==='permission-denied'?'This Google account is not authorized to clear responses. Sign out and use your faculty account.':'Could not clear — check your connection.');
+    console.error('Clear error',e);
+    bar.classList.remove('show');
+    setInstrError(e&&e.code==='permission-denied'?'Not cleared: this Google account is not authorized, or the Firestore rules do not allow deletes yet (permission-denied).':'Could not clear ('+(e&&e.code?e.code:'unknown error')+').');
   }
 }
 
-async function exportToPDF(){
-  const btn=document.getElementById('btn-export-pdf');
-  btn.textContent='Preparing...';
-  btn.disabled=true;
-
-  try{
-    const feelingsSnap=await getDocs(collection(db,COLLECTIONS.feelings));
-    const takeawaysSnap=await getDocs(collection(db,COLLECTIONS.takeaways));
-    const unexpectedSnap=await getDocs(collection(db,COLLECTIONS.unexpected));
-    const wentwellSnap=await getDocs(collection(db,COLLECTIONS.wentwell));
-    const improveSnap=await getDocs(collection(db,COLLECTIONS.improve));
-
-    const feelings=feelingsSnap.docs.map(d=>d.data()).sort((a,b)=>b.count-a.count);
-    const sortByTs=arr=>arr.sort((a,b)=>((a.ts&&b.ts)?(a.ts.seconds-b.ts.seconds):0));
-    const takeaways=sortByTs(takeawaysSnap.docs.map(d=>d.data()));
-    const unexpected=sortByTs(unexpectedSnap.docs.map(d=>d.data()));
-    const wentwell=sortByTs(wentwellSnap.docs.map(d=>d.data()));
-    const improve=sortByTs(improveSnap.docs.map(d=>d.data()));
-
-    const now=new Date();
-    const dateStr=now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-    const timeStr=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-
-    function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
-    function listSection(title,num,items,emptyMsg){
-      if(!items.length)return`<div class="pdf-section"><div class="pdf-section-header"><span class="pdf-num">${num}</span><span class="pdf-section-title">${title}</span><span class="pdf-count">0 responses</span></div><p class="pdf-empty">${emptyMsg}</p></div>`;
-      return`<div class="pdf-section"><div class="pdf-section-header"><span class="pdf-num">${num}</span><span class="pdf-section-title">${title}</span><span class="pdf-count">${items.length} response${items.length===1?'':'s'}</span></div>${items.map((item,i)=>`<div class="pdf-resp"><span class="pdf-resp-num">${i+1}</span><span>${escH(item.text)}</span></div>`).join('')}</div>`;
-    }
-
-    function cloudSection(words){
-      if(!words.length)return`<div class="pdf-section"><div class="pdf-section-header"><span class="pdf-num">1</span><span class="pdf-section-title">How we're feeling</span><span class="pdf-count">0 responses</span></div><p class="pdf-empty">No words submitted</p></div>`;
-      const total=words.reduce((s,w)=>s+w.count,0);
-      return`<div class="pdf-section"><div class="pdf-section-header"><span class="pdf-num">1</span><span class="pdf-section-title">How we're feeling</span><span class="pdf-count">${total} response${total===1?'':'s'}, ${words.length} unique word${words.length===1?'':'s'}</span></div><div class="pdf-cloud">${words.map(w=>`<span class="pdf-word" style="font-size:${Math.max(11,Math.min(22,10+w.count*2))}px">${escH(w.word)} <span class="pdf-word-count">&times;${w.count}</span></span>`).join('')}</div></div>`;
-    }
-
-    const html=`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/>
-<title>MCI Evaluation — ${dateStr}</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Georgia,serif;color:#1a1a1a;padding:2cm;max-width:21cm;margin:0 auto;font-size:11pt;line-height:1.6}
-.pdf-header{border-bottom:2px solid #b91c1c;padding-bottom:16px;margin-bottom:24px}
-.pdf-title{font-size:22pt;font-weight:700;color:#b91c1c;margin-bottom:4px}
-.pdf-subtitle{font-size:11pt;color:#555;margin-bottom:2px}
-.pdf-meta{font-size:9pt;color:#888;margin-top:8px}
-.pdf-section{margin-bottom:28px;page-break-inside:avoid}
-.pdf-section-header{display:flex;align-items:center;gap:10px;background:#f5f5f3;border-left:4px solid #b91c1c;padding:8px 12px;margin-bottom:12px;border-radius:0 6px 6px 0}
-.pdf-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#b91c1c;color:#fff;font-size:10pt;font-weight:700;flex-shrink:0;font-family:system-ui,sans-serif}
-.pdf-section-title{font-size:12pt;font-weight:600;color:#1a1a1a;font-family:system-ui,sans-serif;flex:1}
-.pdf-count{font-size:9pt;color:#888;font-family:system-ui,sans-serif;white-space:nowrap}
-.pdf-resp{display:flex;gap:10px;padding:8px 0;border-bottom:0.5px solid #e5e5e5;align-items:flex-start}
-.pdf-resp:last-child{border-bottom:none}
-.pdf-resp-num{font-size:9pt;color:#b91c1c;font-weight:600;min-width:20px;padding-top:1px;font-family:system-ui,sans-serif}
-.pdf-empty{font-size:10pt;color:#aaa;font-style:italic;padding:8px 0}
-.pdf-cloud{display:flex;flex-wrap:wrap;gap:8px;padding:8px 0;align-items:baseline}
-.pdf-word{display:inline-block;background:#fef2f2;color:#991b1b;padding:3px 10px;border-radius:20px;font-family:system-ui,sans-serif;font-weight:500;border:0.5px solid #fca5a5}
-.pdf-word-count{font-size:9pt;color:#b91c1c;font-weight:400}
-.pdf-footer{margin-top:32px;padding-top:12px;border-top:1px solid #e5e5e5;font-size:9pt;color:#aaa;text-align:center;font-family:system-ui,sans-serif}
-@media print{body{padding:1.5cm}@page{margin:1.5cm}}
-</style></head><body>
-<div class="pdf-header">
-  <div class="pdf-title">Mass Casualty Training — Evaluation Results</div>
-  <div class="pdf-subtitle">Anonymous student responses — all data is confidential</div>
-  <div class="pdf-meta">Exported on ${dateStr} at ${timeStr}</div>
-</div>
-${cloudSection(feelings)}
-${listSection("Most important takeaways",2,takeaways,"No responses submitted")}
-${listSection("What surprised us",3,unexpected,"No responses submitted")}
-${listSection("What went well",4,wentwell,"No responses submitted")}
-${listSection("What could be improved",5,improve,"No responses submitted")}
-<div class="pdf-footer">Mass Casualty Training Evaluation &mdash; Generated ${dateStr}</div>
-</body></html>`;
-
-    const win=window.open('','_blank');
-    win.document.write(html);
-    win.document.close();
-    win.focus();
-    setTimeout(()=>{win.print();},600);
-
-  }catch(e){
-    alert('Could not export — check your connection and try again.');
-  }finally{
-    btn.textContent='Export to PDF';
-    btn.disabled=false;
-  }
-}
-
-document.getElementById('btn-export-pdf').addEventListener('click',exportToPDF);
-document.getElementById('btn-q1').addEventListener('click',submitQ1);
-document.getElementById('btn-q2').addEventListener('click',()=>submitQ('q2',COLLECTIONS.takeaways,'q2'));
-document.getElementById('btn-q3').addEventListener('click',()=>submitQ('q3',COLLECTIONS.unexpected,'q3'));
-document.getElementById('btn-q4').addEventListener('click',()=>submitQ('q4',COLLECTIONS.wentwell,'q4'));
-document.getElementById('btn-q5').addEventListener('click',()=>submitQ('q5',COLLECTIONS.improve,'q5'));
-document.getElementById('btn-show-results').addEventListener('click',showResults);
 document.getElementById('btn-show-survey').addEventListener('click',showSurvey);
 document.getElementById('btn-lock').addEventListener('click',signOutInstructor);
 document.getElementById('btn-signin').addEventListener('click',signInInstructor);

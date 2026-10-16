@@ -441,7 +441,7 @@ window.submitFeeling=async function(){
   const key=val.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim();
   if(!key){setStatus('feeling-status','Please enter a valid word or phrase.','err');return;}
   try{
-    const ref=doc(db,'firstday_feelings',key);
+    const ref=doc(db,'fdc_feelings',key);
     await setDoc(ref,{word:val,count:increment(1)},{merge:true});
     document.getElementById('feeling-input').value='';
     document.getElementById('feeling-chars').textContent='0 / 40';
@@ -455,7 +455,7 @@ window.submitQuestion=async function(){
   if(!val){setStatus('q-status','Please type a question first.','err');return;}
   if(!connected){setStatus('q-status','Not connected yet — please wait a moment.','err');return;}
   try{
-    await addDoc(collection(db,'firstday_questions'),{text:val,ts:serverTimestamp()});
+    await addDoc(collection(db,'fdc_questions'),{text:val,ts:serverTimestamp()});
     document.getElementById('question-input').value='';
     document.getElementById('q-chars').textContent='0 / 400';
     setStatus('q-status','Submitted! Ask another if you have more.','ok');
@@ -468,9 +468,9 @@ window.cancelClear=function(){document.getElementById('confirm-bar').classList.r
 
 window.clearAll=async function(){
   try{
-    const fSnap=await getDocs(collection(db,'firstday_feelings'));
+    const fSnap=await getDocs(collection(db,'fdc_feelings'));
     for(const d of fSnap.docs){await deleteDoc(d.ref);}
-    const qSnap=await getDocs(collection(db,'firstday_questions'));
+    const qSnap=await getDocs(collection(db,'fdc_questions'));
     for(const d of qSnap.docs){await deleteDoc(d.ref);}
     document.getElementById('confirm-bar').classList.remove('show');
   }catch(e){
@@ -540,13 +540,13 @@ function setStatus(id,msg,type){
   if(msg)setTimeout(()=>{if(el.textContent===msg){el.textContent='';el.className='status';}},4000);
 }
 
-onSnapshot(collection(db,'firstday_feelings'),(snap)=>{
+onSnapshot(collection(db,'fdc_feelings'),(snap)=>{
   setConnection('ok');
   const data=snap.docs.map(d=>({id:d.id,...d.data()}));
   renderCloud(data);
 },(err)=>{setConnection('err');});
 
-onSnapshot(collection(db,'firstday_questions'),(snap)=>{
+onSnapshot(collection(db,'fdc_questions'),(snap)=>{
   const data=snap.docs.map(d=>({id:d.id,...d.data()}));
   renderQuestions(data);
 },(err)=>{});
